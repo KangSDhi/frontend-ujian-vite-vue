@@ -100,6 +100,9 @@ export default {
                 if (dataAuth.level == "ADMIN") {
                     this.$router.push({ name: "Dashboard Admin" });
                 } else if (dataAuth.level == "SISWA") {
+                    localStorage.setItem("nama_siswa", dataAuth.nama_pengguna);
+                    localStorage.setItem("tingkat", dataAuth.tingkat);
+                    localStorage.setItem("jurusan", dataAuth.jurusan);
                     this.$router.push({ name: "Dashboard Siswa" });
                 }
             })
