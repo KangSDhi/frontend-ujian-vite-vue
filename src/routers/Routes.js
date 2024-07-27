@@ -1,6 +1,9 @@
 import HalamanLogin from "../views/auth/Login.vue";
 import HalamanDashboardAdmin from "../views/admin/Dashboard.vue"
 import HalamanDashboardSiswa from "../views/siswa/Dashboard.vue";
+import HalamanMataUjianSiswa from "../views/siswa/MataUjian.vue";
+import HalamanMulaiUjianSiswa from "../views/siswa/MulaiUjian.vue";
+import HalamanUjianSiswa from "../views/siswa/Ujian.vue";
 
 const routes = [
     {
@@ -33,6 +36,30 @@ const routes = [
                 component: HalamanDashboardSiswa,
                 meta: {
                     title: "Dashboard Siswa"
+                }
+            },
+            {
+                path: "mataujian",
+                name: "Mata Ujian Siswa",
+                component: HalamanMataUjianSiswa,
+                meta: {
+                    title: "Mata Ujian Siswa"
+                }
+            },
+            {
+                path: "mulaiujian/:idSoal",
+                name: "Mulai Ujian Siswa",
+                component: HalamanMulaiUjianSiswa,
+                meta: {
+                    title: "Mulai Ujian Siswa"
+                }
+            },
+            {
+                path: "ujian/:idSoal/:indexSoal",
+                name: "Ujian Siswa",
+                component: HalamanUjianSiswa,
+                meta: {
+                    title: "Ujian"
                 }
             }
         ]
