@@ -13,7 +13,7 @@
         </div>
         <div v-for="(option, optionIndex) in options" class="flex items-center">
             <input type="radio" v-model="dataSoal[indexSoal].jawaban" :value="option.value"
-                @click="updateStatus(indexSoal)"
+                @change="updateStatus(indexSoal)"
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
             <label for="default-radio-1" class="ms-2 font-medium text-gray-900">
                 {{ option.label }}
@@ -22,7 +22,17 @@
         <div class="flex gap-2">
             <button @click="prevSoal()">Sebelumnya</button>
             <button @click="raguSoal(indexSoal)">Ragu</button>
-            <button @click="nextSoal()">Selanjutnya</button>
+            <template v-if="dataSoal.length -1 == indexSoal">
+                <template v-if="isBtnFinishOpen">
+                    <button>Selesai</button>
+                </template>
+                <template v-else>
+                    <button>{{ dataWaktuTombolSelesai.menit }} : {{ dataWaktuTombolSelesai.detik }}</button>
+                </template>
+            </template>
+            <template v-else>
+                <button @click="nextSoal()">Selanjutnya</button>
+            </template>
         </div>
     </div>
 </template>
@@ -39,10 +49,15 @@ export default {
             indexSoal: parseInt(this.$route.params.indexSoal),
             dataSoal: null,
             waktuSelesaiUjian: null,
+            waktuAktifSelesaiUjian: null,
             options: [],
-            intervalUjian: null,
             dataWaktu: {
                 jam: 0,
+                menit: 0,
+                detik: 0
+            },
+            isBtnFinishOpen: false,
+            dataWaktuTombolSelesai: {
                 menit: 0,
                 detik: 0
             }
@@ -50,6 +65,8 @@ export default {
     },
     mounted() {
         this.loadItemSoal();
+        this.startCountdown();
+        setInterval(this.startCountdownFinishButton, 1000);
     },
     watch: {
         '$route.params.indexSoal': {
@@ -71,9 +88,10 @@ export default {
                     console.log(data);
                     this.dataSoal = data.data.soal;
                     this.waktuSelesaiUjian = data.data.waktuSelesaiUjian;
+                    this.waktuAktifSelesaiUjian = data.data.waktuAktifSelesaiUjian;
                     this.initializeOptions();
                     this.startCountdown();
-                    this.intervalUjian = setInterval(this.startCountdown, 1000);
+                    this.startCountdownFinishButton()
                 })
                 .catch(({ response }) => {
                     console.error(response);
@@ -93,6 +111,27 @@ export default {
         },
         updateStatus(indexSoal) {
             this.dataSoal[indexSoal].statusPertanyaan = "SUDAH_DIJAWAB";
+            // idSoal
+            // idBank
+            // jawaban
+            // status pertanyaan
+            console.log(this.dataSoal[indexSoal]);
+            axios.post(`${this.IP_ENDPOINT}/siswa/ujian/jawab`, {
+                idSoal: this.idSoal,
+                idBank: this.dataSoal[indexSoal].idBank,
+                jawaban: this.dataSoal[indexSoal].jawaban,
+                statusPertanyaan: this.dataSoal[indexSoal].statusPertanyaan,
+            }, {
+                headers: {
+                    "Authorization": "Bearer " + this.token
+                }
+            })
+            .then(({ data }) => {
+                console.log(data);
+            })
+            .catch(({ response }) => {
+                console.error(response);
+            });
         },
         raguSoal(indexSoal) {
             this.dataSoal[indexSoal].statusPertanyaan = "RAGU";
@@ -107,21 +146,25 @@ export default {
                 this.$router.push({ name: "Ujian Siswa", params: { idSoal: this.idSoal, indexSoal: this.indexSoal + 1 } });
             }
         },
-        parseDateString(dateString){
+        parseDateString(dateString) {
+            if(!dateString) return null;
             const [date, time] = dateString.split(' ');
             const [day, month, year] = date.split('-');
             const [hours, minutes, seconds] = time.split(':');
             return new Date(year, month - 1, day, hours, minutes, seconds);
         },
-        startCountdown(){
+        startCountdown() {
+            if(!this.waktuSelesaiUjian) return;
             const targetDate = this.parseDateString(this.waktuSelesaiUjian);
+            if(!targetDate) return;
+
             const now = new Date().getTime()
             const distance = targetDate - now;
 
             if (distance < 0) {
-                clearInterval(this.intervalUjian);
                 this.dataWaktu = { jam: this.formatTime(0), menit: this.formatTime(0), detik: this.formatTime(0) }
                 console.log("Selesai");
+                this.$router.push({ name: "Selesai Ujian Siswa", params: { idSoal: this.idSoal } });
                 return;
             }
 
@@ -129,12 +172,26 @@ export default {
             this.dataWaktu.menit = this.formatTime(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
             this.dataWaktu.detik = this.formatTime(Math.floor((distance % (1000 * 60)) / 1000));
         },
-        formatTime(value){
+        formatTime(value) {
             return value < 10 ? "0" + value : value;
+        },
+        startCountdownFinishButton(){
+            if(!this.waktuAktifSelesaiUjian) return;
+            const targetDate = this.parseDateString(this.waktuAktifSelesaiUjian);
+            if(!targetDate) return;
+
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if(distance < 0){
+                this.dataWaktuTombolSelesai = { menit: this.formatTime(0), detik: this.formatTime(0) };
+                this.isBtnFinishOpen = true;
+                return;
+            }
+
+            this.dataWaktuTombolSelesai.menit = this.formatTime(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+            this.dataWaktuTombolSelesai.detik = this.formatTime(Math.floor((distance % (1000 * 60)) / 1000));
         }
-    },
-    beforeDestroy(){
-        clearInterval(this.intervalUjian);
     }
 }
 </script>

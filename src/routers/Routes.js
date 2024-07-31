@@ -4,6 +4,7 @@ import HalamanDashboardSiswa from "../views/siswa/Dashboard.vue";
 import HalamanMataUjianSiswa from "../views/siswa/MataUjian.vue";
 import HalamanMulaiUjianSiswa from "../views/siswa/MulaiUjian.vue";
 import HalamanUjianSiswa from "../views/siswa/Ujian.vue";
+import HalamanSelesaiUjianSiswa from "../views/siswa/SelesaiUjian.vue";
 
 const routes = [
     {
@@ -60,6 +61,14 @@ const routes = [
                 component: HalamanUjianSiswa,
                 meta: {
                     title: "Ujian"
+                }
+            },
+            {
+                path: "selesaiujian/:idSoal",
+                name: "Selesai Ujian Siswa",
+                component: HalamanSelesaiUjianSiswa,
+                meta: {
+                    title: "Selesai Ujian"
                 }
             }
         ]
