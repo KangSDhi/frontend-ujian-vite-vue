@@ -33,10 +33,10 @@ export default {
                 const httpCode = response.data.httpCode;
                 if (httpCode === 401) {
                     localStorage.removeItem("auth_token");
-                    this.$router.push({ name: "Halaman Login" });
+                    this.$router.push({ name: "Login Page" });
                 }else if (httpCode === 403) {
                     localStorage.removeItem("auth_token");
-                    this.$router.push({ name: "Halaman Login" });
+                    this.$router.push({ name: "Login Page" });
                 }
             });
         }

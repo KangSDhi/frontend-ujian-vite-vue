@@ -25,7 +25,7 @@
                         <div class="flex">
                             <div class="flex-auto font-mono">Durasi : {{ dataSoal.durasiSoal }}</div>
                         </div>
-                        <div @click="mulaiUjian()" class="flex mt-5">
+                        <div @click="startUjian()" class="flex mt-5">
                             <button class="w-full justify-center rounded-md bg-gradient-to-tr from-blue-600 to-indigo-400 shadow-blue-500/20 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Mulai</button>
                         </div>
                     </div>
@@ -78,7 +78,7 @@ export default {
                     console.error(response);
                 });
         },
-        mulaiUjian(){
+        startUjian(){
             this.checkUjianIn();
         },
         checkUjianIn(){
@@ -90,7 +90,7 @@ export default {
             .then(({ data }) => {
                 console.log(data);
                 if(data.httpCode == 200 && data.message == "Ujian Ada!"){
-                    this.$router.push({ name: "Ujian Siswa", params: { idSoal: this.idSoal, indexSoal: 0 } });
+                    this.$router.push({ name: "Ujian Siswa Page", params: { idSoal: this.idSoal, indexSoal: 0 } });
                 }
             })
             .catch(({ response }) => {
@@ -109,7 +109,7 @@ export default {
             })
             .then(({ data }) => {
                 if (data.httpCode == 201 && data.message.includes("Ujian Berhasil Dibuat")) {
-                    this.$router.push({ name: "Ujian Siswa", params: { idSoal: this.idSoal, indexSoal: 0 } });           
+                    this.$router.push({ name: "Ujian Siswa Page", params: { idSoal: this.idSoal, indexSoal: 0 } });           
                 }
             })
             .catch(({ response }) => {

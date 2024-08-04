@@ -5,7 +5,7 @@
                 Pertanyaan No. {{ indexSoal + 1 }}
             </div>
             <div class="basis-3/4">
-                {{ dataWaktu.jam }} : {{ dataWaktu.menit }} : {{ dataWaktu.detik }}
+                {{ examTimeData.hours }} : {{ examTimeData.minutes }} : {{ examTimeData.seconds }}
             </div>
         </div>
         <div class="flex">
@@ -23,11 +23,11 @@
             <button @click="prevSoal()">Sebelumnya</button>
             <button @click="raguSoal(indexSoal)">Ragu</button>
             <template v-if="dataSoal.length -1 == indexSoal">
-                <template v-if="isBtnFinishOpen">
+                <template v-if="isButtonFinishOpen">
                     <button>Selesai</button>
                 </template>
                 <template v-else>
-                    <button>{{ dataWaktuTombolSelesai.menit }} : {{ dataWaktuTombolSelesai.detik }}</button>
+                    <button>{{ activeFinishButtonTimeData.minutes }} : {{ activeFinishButtonTimeData.seconds }}</button>
                 </template>
             </template>
             <template v-else>
@@ -48,18 +48,18 @@ export default {
             idSoal: this.$route.params.idSoal,
             indexSoal: parseInt(this.$route.params.indexSoal),
             dataSoal: null,
-            waktuSelesaiUjian: null,
-            waktuAktifSelesaiUjian: null,
+            examFinishTime: null,
+            activeTimeFinishesExam: null,
             options: [],
-            dataWaktu: {
-                jam: 0,
-                menit: 0,
-                detik: 0
+            examTimeData: {
+                hours: 0,
+                minutes: 0,
+                seconds: 0
             },
-            isBtnFinishOpen: false,
-            dataWaktuTombolSelesai: {
-                menit: 0,
-                detik: 0
+            isButtonFinishOpen: false,
+            activeFinishButtonTimeData: {
+                minutes: 0,
+                seconds: 0
             }
         }
     },
@@ -88,8 +88,8 @@ export default {
                 .then(({ data }) => {
                     console.log(data);
                     this.dataSoal = data.data.soal;
-                    this.waktuSelesaiUjian = data.data.waktuSelesaiUjian;
-                    this.waktuAktifSelesaiUjian = data.data.waktuAktifSelesaiUjian;
+                    this.examFinishTime = data.data.waktuSelesaiUjian;
+                    this.activeTimeFinishesExam = data.data.waktuAktifSelesaiUjian;
                     this.initializeOptions();
                     this.startCountdown();
                     this.startCountdownFinishButton()
@@ -139,12 +139,12 @@ export default {
         },
         prevSoal() {
             if (this.indexSoal > 0) {
-                this.$router.push({ name: "Ujian Siswa", params: { idSoal: this.idSoal, indexSoal: this.indexSoal - 1 } });
+                this.$router.push({ name: "Ujian Siswa Page", params: { idSoal: this.idSoal, indexSoal: this.indexSoal - 1 } });
             }
         },
         nextSoal() {
             if (this.indexSoal < this.dataSoal.length - 1) {
-                this.$router.push({ name: "Ujian Siswa", params: { idSoal: this.idSoal, indexSoal: this.indexSoal + 1 } });
+                this.$router.push({ name: "Ujian Siswa Page", params: { idSoal: this.idSoal, indexSoal: this.indexSoal + 1 } });
             }
         },
         parseDateString(dateString) {
@@ -155,43 +155,43 @@ export default {
             return new Date(year, month - 1, day, hours, minutes, seconds);
         },
         startCountdown() {
-            if(!this.waktuSelesaiUjian) return;
-            const targetDate = this.parseDateString(this.waktuSelesaiUjian);
+            if(!this.examFinishTime) return;
+            const targetDate = this.parseDateString(this.examFinishTime);
             if(!targetDate) return;
 
             const now = new Date().getTime()
             const distance = targetDate - now;
 
             if (distance < 0) {
-                this.dataWaktu = { jam: this.formatTime(0), menit: this.formatTime(0), detik: this.formatTime(0) }
+                this.examTimeData = { hours: this.formatTime(0), minutes: this.formatTime(0), seconds: this.formatTime(0) }
                 console.log("Selesai");
-                this.$router.push({ name: "Selesai Ujian Siswa", params: { idSoal: this.idSoal } });
+                this.$router.push({ name: "Selesai Ujian Siswa Page", params: { idSoal: this.idSoal } });
                 return;
             }
 
-            this.dataWaktu.jam = this.formatTime(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-            this.dataWaktu.menit = this.formatTime(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
-            this.dataWaktu.detik = this.formatTime(Math.floor((distance % (1000 * 60)) / 1000));
+            this.examTimeData.hours = this.formatTime(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            this.examTimeData.minutes = this.formatTime(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+            this.examTimeData.seconds = this.formatTime(Math.floor((distance % (1000 * 60)) / 1000));
         },
         formatTime(value) {
             return value < 10 ? "0" + value : value;
         },
         startCountdownFinishButton(){
-            if(!this.waktuAktifSelesaiUjian) return;
-            const targetDate = this.parseDateString(this.waktuAktifSelesaiUjian);
+            if(!this.activeTimeFinishesExam) return;
+            const targetDate = this.parseDateString(this.activeTimeFinishesExam);
             if(!targetDate) return;
 
             const now = new Date().getTime();
             const distance = targetDate - now;
 
             if(distance < 0){
-                this.dataWaktuTombolSelesai = { menit: this.formatTime(0), detik: this.formatTime(0) };
-                this.isBtnFinishOpen = true;
+                this.activeFinishButtonTimeData = { minutes: this.formatTime(0), seconds: this.formatTime(0) };
+                this.isButtonFinishOpen = true;
                 return;
             }
 
-            this.dataWaktuTombolSelesai.menit = this.formatTime(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
-            this.dataWaktuTombolSelesai.detik = this.formatTime(Math.floor((distance % (1000 * 60)) / 1000));
+            this.activeFinishButtonTimeData.minutes = this.formatTime(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+            this.activeFinishButtonTimeData.seconds = this.formatTime(Math.floor((distance % (1000 * 60)) / 1000));
         }
     }
 }

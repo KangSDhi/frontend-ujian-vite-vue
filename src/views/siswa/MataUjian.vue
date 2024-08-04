@@ -21,13 +21,18 @@
                         </div>
                         <div class="px-6 pt-4 pb-2 mb-3">
                             <template v-if="item.statusMataUjian == 'MULAI'">
-                                <RouterLink :to="{ name: 'Mulai Ujian Siswa', params: { idSoal: item.idSoal } }" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Mulai</RouterLink>
+                                <RouterLink :to="{ name: 'Mulai Ujian Siswa Page', params: { idSoal: item.idSoal } }"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Mulai
+                                </RouterLink>
                             </template>
                             <template v-else-if="item.statusMataUjian == 'BELUM_MULAI'">
-                                <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Belum Mulai</button>
+                                <button
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Belum
+                                    Mulai</button>
                             </template>
                             <template v-else>
-                                <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Selesai</button>
+                                <button
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Selesai</button>
                             </template>
                         </div>
                     </div>
@@ -47,8 +52,10 @@ export default {
         return {
             IP_ENDPOINT: import.meta.env.VITE_IP_API_ENDPOINT,
             token: localStorage.getItem("auth_token"),
-            tingkat: localStorage.getItem("tingkat"),
-            jurusan: localStorage.getItem("jurusan"),
+            dataSiswa: {
+                tingkat: localStorage.getItem("tingkat"),
+                jurusan: localStorage.getItem("jurusan"),
+            },
             dataMataUjian: [],
         }
     },
@@ -61,8 +68,8 @@ export default {
     methods: {
         loadMataUjian() {
             axios.post(`${this.IP_ENDPOINT}/siswa/mata-ujian`, {
-                tingkat: this.tingkat,
-                jurusan: this.jurusan
+                tingkat: this.dataSiswa.tingkat,
+                jurusan: this.dataSiswa.jurusan
             }, {
                 headers: {
                     "Authorization": "Bearer " + this.token

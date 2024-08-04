@@ -15,13 +15,13 @@
                                 Email / ID Siswa
                             </label>
                             <div class="mt-2">
-                                <input v-model="emailAtauIdSiswa" type="text"
+                                <input v-model="emailOrIdSiswa" type="text"
                                     class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadown-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
                                     :class="{
-                                        'border-2 border-rose-500': isEmailAtauIdSiswaError
+                                        'border-2 border-rose-500': isEmailOrIdSiswaError
                                     }">
                             </div>
-                            <span class="text-rose-500 text-sm font-bold">{{ emailAtauIdSiswaErrorMessage }}</span>
+                            <span class="text-rose-500 text-sm font-bold">{{ emailOrIdSiswaErrorMessage }}</span>
                         </div>
                         <div>
                             <label for="" class="block text-sm font-medium leading-6 text-gray-900">
@@ -64,11 +64,12 @@ export default {
     data() {
         return {
             IP_ENDPOINT: import.meta.env.VITE_IP_API_ENDPOINT,
-            emailAtauIdSiswa: "",
+            token: localStorage.getItem("auth_token"),
+            emailOrIdSiswa: "",
             password: "",
-            isEmailAtauIdSiswaError: false,
+            isEmailOrIdSiswaError: false,
             isPasswordError: false,
-            emailAtauIdSiswaErrorMessage: "",
+            emailOrIdSiswaErrorMessage: "",
             passwordErrorMessage: "",
             isAuthError: false,
             authErrorMessage: ""
@@ -91,19 +92,19 @@ export default {
         login(){
             this.resetForm();
             axios.post(`${this.IP_ENDPOINT}/auth/signin`, {
-                emailOrIdSiswa: this.emailAtauIdSiswa,
+                emailOrIdSiswa: this.emailOrIdSiswa,
                 password: this.password
             })
             .then(({ data }) => {
                 const dataAuth = data.data;
                 localStorage.setItem("auth_token", dataAuth.token);
                 if (dataAuth.level == "ADMIN") {
-                    this.$router.push({ name: "Dashboard Admin" });
+                    this.$router.push({ name: "Dashboard Admin Page" });
                 } else if (dataAuth.level == "SISWA") {
                     localStorage.setItem("nama_siswa", dataAuth.nama_pengguna);
                     localStorage.setItem("tingkat", dataAuth.tingkat);
                     localStorage.setItem("jurusan", dataAuth.jurusan);
-                    this.$router.push({ name: "Dashboard Siswa" });
+                    this.$router.push({ name: "Dashboard Siswa Page" });
                 }
             })
             .catch(({ response }) => {
@@ -114,8 +115,8 @@ export default {
                     Object.keys(errorMessages).forEach((key) => {
                         
                         if (key == "emailOrIdSiswa") {
-                            this.isEmailAtauIdSiswaError = true;
-                            this.emailAtauIdSiswaErrorMessage = errorMessages[key];
+                            this.isEmailOrIdSiswaError = true;
+                            this.emailOrIdSiswaErrorMessage = errorMessages[key];
                         }
 
                         if (key == "password") {
@@ -135,16 +136,15 @@ export default {
             );
         },
         resetForm(){
-            this.isEmailAtauIdSiswaError = false;
-            this.emailAtauIdSiswaErrorMessage = "";
+            this.isEmailOrIdSiswaError = false;
+            this.emailOrIdSiswaErrorMessage = "";
             this.isPasswordError = false;
             this.passwordErrorMessage = "";
         },
         checkAuth(){
-            const token = localStorage.getItem("auth_token");
             axios.get(`${this.IP_ENDPOINT}/auth/check/user`, {
                 headers: {
-                    "Authorization": "Bearer " + token
+                    "Authorization": "Bearer " + this.token
                 }
             })
             .then(({ data }) => {
@@ -152,10 +152,10 @@ export default {
                 const dataAuth = data.data;
                 if (dataAuth.level == "ADMIN") {
                     console.log("OK ADMIN");
-                    this.$router.push({ name: "Dashboard Admin" });
+                    this.$router.push({ name: "Dashboard Admin Page" });
                 } else if(dataAuth.level == "SISWA"){
                     console.log("OK SISWA");
-                    this.$router.push({ name: "Dashboard Siswa" });
+                    this.$router.push({ name: "Dashboard Siswa Page" });
                 }
             })
             .catch(({ response }) => {

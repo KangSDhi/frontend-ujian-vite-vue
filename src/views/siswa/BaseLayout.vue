@@ -31,7 +31,7 @@
                     </button>
                     <ul>
                         <li>
-                            <RouterLink :to="{ name: 'Dashboard Siswa' }"
+                            <RouterLink :to="{ name: 'Dashboard Siswa Page' }"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -42,7 +42,7 @@
                             </RouterLink>
                         </li>
                         <li>
-                            <RouterLink :to="{ name: 'Mata Ujian Siswa' }"
+                            <RouterLink :to="{ name: 'Mata Ujian Siswa Page' }"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -121,10 +121,10 @@ export default {
                     const httpCode = response.data.httpCode;
                     if (httpCode === 401) {
                         localStorage.removeItem("auth_token");
-                        this.$router.push({ name: "Halaman Login" });
+                        this.$router.push({ name: "Login Page" });
                     } else if (httpCode === 403) {
                         localStorage.removeItem("auth_token");
-                        this.$router.push({ name: "Halaman Login" });
+                        this.$router.push({ name: "Login Page" });
                     }
                 });
         },
@@ -139,7 +139,7 @@ export default {
             })
             .then(({ data }) => {
                 localStorage.removeItem("auth_token");
-                this.$router.push({ name: "Halaman Login" });
+                this.$router.push({ name: "Login Page" });
             })
             .catch(({ response }) => {
                 console.error(response);
