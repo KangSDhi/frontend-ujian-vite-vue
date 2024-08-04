@@ -66,6 +66,7 @@ export default {
     mounted() {
         this.loadItemSoal();
         this.startCountdown();
+        setInterval(this.startCountdown, 1000);
         setInterval(this.startCountdownFinishButton, 1000);
     },
     watch: {
