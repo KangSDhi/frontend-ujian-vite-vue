@@ -1,56 +1,74 @@
 <template>
     <div v-if="dataSoal" class="container mx-auto">
-        <div class="grid grid-cols-2 mt-11 mr-2 ml-2">
-            <div class="font-sans text-xl">
-                Pertanyaan No. {{ indexSoal + 1 }}
+        <div class="grid md:grid-cols-3 grid-cols-1">
+            <div class="col-span-2">
+                <div class="grid grid-cols-2 mt-11 mr-2 ml-2">
+                    <div class="font-sans text-xl">
+                        Pertanyaan No. {{ indexSoal + 1 }}
+                    </div>
+                    <div class="justify-self-end font-sans font-semibold text-2xl">
+                        {{ examTimeData.hours }} : {{ examTimeData.minutes }} : {{ examTimeData.seconds }}
+                    </div>
+                </div>
+                <div class="flex mt-2 mb-2 ml-2 text-3xl">
+                    {{ dataSoal[indexSoal].pertanyaan }}
+                </div>
+                <div v-for="(option, optionIndex) in options" class="flex ml-2 items-center">
+                    <input type="radio" v-model="dataSoal[indexSoal].jawaban" :value="option.value"
+                        @change="changeAnswer(indexSoal)"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="default-radio-1" class="ms-3 text-2xl font-medium text-gray-900">
+                        {{ option.label }}
+                    </label>
+                </div>
+                <div class="flex mt-2 gap-2 justify-center md:justify-start">
+                    <button @click="prevQuestion()"
+                        class="text-black bg-blue-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Sebelumnya
+                    </button>
+                    <!-- <button @click="raguSoal(indexSoal)" class="text-black bg-yellow-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Ragu</button> -->
+                    <div class="flex items-center bg-yellow-400 rounded-lg px-5 py-2.5 me-2 mb-2">
+                        <input type="checkbox" v-model="examStatus.hesitate" @change="hesitateQuestion(indexSoal)"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="" class="ms-2 text-md font-medium text-gray-900">Ragu</label>
+                    </div>
+                    <template v-if="dataSoal.length - 1 == indexSoal">
+                        <template v-if="isButtonFinishOpen">
+                            <button
+                                class="text-black bg-green-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Selesai</button>
+                        </template>
+                        <template v-else>
+                            <button disabled
+                                class="text-black bg-gray-400 font-semibold rounded-lg text-md px-5 py-2.5 me-2 mb-2">{{
+                                    activeFinishButtonTimeData.minutes }} : {{ activeFinishButtonTimeData.seconds
+                                }}</button>
+                        </template>
+                    </template>
+                    <template v-else>
+                        <button @click="nextQuestion()"
+                            class="text-black bg-blue-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Selanjutnya</button>
+                    </template>
+                </div>
             </div>
-            <div class="justify-self-end font-sans text-2xl">
-                {{ examTimeData.hours }} : {{ examTimeData.minutes }} : {{ examTimeData.seconds }}
+            <div class="mt-11">
+                <h3 class="text-2xl font-sans font-semibold mb-2">
+                    Navigasi Soal
+                </h3>
+                <div class="grid grid-cols-5 justify-items-center place-items-center gap-2">
+                    <template v-for="(dataSoalItem, dataSoalIndex) in dataSoal">
+                        <RouterLink :to="{ name: 'Ujian Siswa Page', params: { idSoal: this.idSoal, indexSoal: dataSoalIndex } }" :class="backgroundNavigatorQuestion(dataSoalItem.statusPertanyaan)"
+                            class="bg-gray-200 text-black rounded-lg w-full h-20 shadow-xl flex items-center justify-center">
+                            {{ dataSoalIndex + 1 }}
+                        </RouterLink>
+                    </template>
+                </div>
             </div>
-        </div>
-        <div class="flex mt-2 mb-2 ml-2 text-3xl">
-            {{ dataSoal[indexSoal].pertanyaan }}
-        </div>
-        <div v-for="(option, optionIndex) in options" class="flex ml-2 items-center">
-            <input type="radio" v-model="dataSoal[indexSoal].jawaban" :value="option.value"
-                @change="changeAnswer(indexSoal)"
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-            <label for="default-radio-1" class="ms-3 text-2xl font-medium text-gray-900">
-                {{ option.label }}
-            </label>
-        </div>
-        <div class="flex mt-2 gap-2 justify-center md:justify-start">
-            <button @click="prevQuestion()"
-                class="text-black bg-blue-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Sebelumnya
-            </button>
-            <!-- <button @click="raguSoal(indexSoal)" class="text-black bg-yellow-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Ragu</button> -->
-            <div class="flex items-center bg-yellow-400 rounded-lg px-5 py-2.5 me-2 mb-2">
-                <input type="checkbox" v-model="examStatus.hesitate" @change="hesitateQuestion(indexSoal)"
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="" class="ms-2 text-md font-medium text-gray-900">Ragu</label>
-            </div>
-            <template v-if="dataSoal.length - 1 == indexSoal">
-                <template v-if="isButtonFinishOpen">
-                    <button
-                        class="text-black bg-green-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Selesai</button>
-                </template>
-                <template v-else>
-                    <button disabled
-                        class="text-black bg-gray-400 font-semibold rounded-lg text-md px-5 py-2.5 me-2 mb-2">{{
-                            activeFinishButtonTimeData.minutes }} : {{ activeFinishButtonTimeData.seconds
-                        }}</button>
-                </template>
-            </template>
-            <template v-else>
-                <button @click="nextQuestion()"
-                    class="text-black bg-blue-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Selanjutnya</button>
-            </template>
         </div>
     </div>
 </template>
 
 <script>
 import axios from "axios";
+import { RouterLink } from "vue-router";
 
 export default {
     data() {
@@ -236,6 +254,15 @@ export default {
         handleVisibilityChange() {
             if (document.hidden) {
                 window.location.reload();
+            }
+        },
+        backgroundNavigatorQuestion(statusPertanyaan) {
+            if (statusPertanyaan === "BELUM_DIJAWAB") {
+                return 'bg-gray-200';
+            } else if (statusPertanyaan === "SUDAH_DIJAWAB") {
+                return 'bg-green-200';
+            } else {
+                return 'bg-yellow-200';
             }
         }
     },
