@@ -33,7 +33,7 @@
                     </div>
                     <template v-if="dataSoal.length - 1 == indexSoal">
                         <template v-if="isButtonFinishOpen">
-                            <button
+                            <button @click="isActiveModalFinishExam = true"
                                 class="text-black bg-green-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Selesai</button>
                         </template>
                         <template v-else>
@@ -55,11 +55,33 @@
                 </h3>
                 <div class="grid grid-cols-5 justify-items-center place-items-center gap-2">
                     <template v-for="(dataSoalItem, dataSoalIndex) in dataSoal">
-                        <RouterLink :to="{ name: 'Ujian Siswa Page', params: { idSoal: this.idSoal, indexSoal: dataSoalIndex } }" :class="backgroundNavigatorQuestion(dataSoalItem.statusPertanyaan)"
+                        <RouterLink
+                            :to="{ name: 'Ujian Siswa Page', params: { idSoal: this.idSoal, indexSoal: dataSoalIndex } }"
+                            :class="backgroundNavigatorQuestion(dataSoalItem.statusPertanyaan)"
                             class="bg-gray-200 text-black rounded-lg w-full h-20 shadow-xl flex items-center justify-center">
                             {{ dataSoalIndex + 1 }}
                         </RouterLink>
                     </template>
+                </div>
+            </div>
+        </div>
+        <div v-show="isActiveModalFinishExam" class="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
+            <div class="bg-white px-16 py-14 rounded-md text-center">
+                <h1 class="text-xl mb-4 font-bold text-slate-500">Apakah Anda Ingin Mengakhiri Ujian?</h1>
+                <div class="grid grid-cols-2 gap-1">
+                    <button @click="finishExam()"
+                        class="bg-gray-500 px-4 py-2 rounded-md text-md font-semibold text-white">Selesai</button>
+                    <button @click="isActiveModalFinishExam = false"
+                        class="bg-red-500 px-4 py-2 rounded-md text-md font-semibold text-white ml-1">Batal</button>
+                </div>
+            </div>
+        </div>
+        <div v-show="isError" class="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
+            <div class="bg-white px-16 py-14 rounded-md text-center">
+                <h1 class="text-xl mb-4 font-bold text-slate-500">{{ errorMessage }}</h1>
+                <div class="grid grid-cols-1">
+                    <button @click="isError = false"
+                        class="bg-gray-500 px-4 py-2 rounded-md text-md font-semibold text-white">Ok</button>
                 </div>
             </div>
         </div>
@@ -93,7 +115,10 @@ export default {
             activeFinishButtonTimeData: {
                 minutes: 0,
                 seconds: 0
-            }
+            },
+            isActiveModalFinishExam: false,
+            isError: false,
+            errorMessage: null,
         }
     },
     mounted() {
@@ -263,6 +288,27 @@ export default {
                 return 'bg-green-200';
             } else {
                 return 'bg-yellow-200';
+            }
+        },
+        convertStatusPertanyaanString(input){
+            return input.toLowerCase().replace(/_/g, ' ');
+        },
+        finishExam(){
+            this.isActiveModalFinishExam = false;
+            for (let index = 0; index < this.dataSoal.length; index++) {
+                const element = this.dataSoal[index];
+
+                if (element.statusPertanyaan == "BELUM_DIJAWAB" || element.statusPertanyaan == "RAGU") {
+                    console.log(index);
+                    console.log(element.statusPertanyaan);
+                    this.isError = true;
+                    this.errorMessage = "Pertanyaan no. " + parseInt(index+1) +" "+this.convertStatusPertanyaanString(element.statusPertanyaan);
+                    break;
+                }     
+            }
+
+            if (!this.isError) {
+                console.log("Akhiri Ujian!");
             }
         }
     },
