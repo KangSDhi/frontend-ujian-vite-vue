@@ -65,7 +65,8 @@
                 </div>
             </div>
         </div>
-        <div v-show="isActiveModalFinishExam" class="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
+        <div v-show="isActiveModalFinishExam"
+            class="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
             <div class="bg-white px-16 py-14 rounded-md text-center">
                 <h1 class="text-xl mb-4 font-bold text-slate-500">Apakah Anda Ingin Mengakhiri Ujian?</h1>
                 <div class="grid grid-cols-2 gap-1">
@@ -76,7 +77,8 @@
                 </div>
             </div>
         </div>
-        <div v-show="isError" class="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
+        <div v-show="isError"
+            class="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
             <div class="bg-white px-16 py-14 rounded-md text-center">
                 <h1 class="text-xl mb-4 font-bold text-slate-500">{{ errorMessage }}</h1>
                 <div class="grid grid-cols-1">
@@ -290,10 +292,10 @@ export default {
                 return 'bg-yellow-200';
             }
         },
-        convertStatusPertanyaanString(input){
+        convertStatusPertanyaanString(input) {
             return input.toLowerCase().replace(/_/g, ' ');
         },
-        finishExam(){
+        finishExam() {
             this.isActiveModalFinishExam = false;
             for (let index = 0; index < this.dataSoal.length; index++) {
                 const element = this.dataSoal[index];
@@ -302,14 +304,33 @@ export default {
                     console.log(index);
                     console.log(element.statusPertanyaan);
                     this.isError = true;
-                    this.errorMessage = "Pertanyaan no. " + parseInt(index+1) +" "+this.convertStatusPertanyaanString(element.statusPertanyaan);
+                    this.errorMessage = "Pertanyaan no. " + parseInt(index + 1) + " " + this.convertStatusPertanyaanString(element.statusPertanyaan);
                     break;
-                }     
+                }
             }
 
             if (!this.isError) {
                 console.log("Akhiri Ujian!");
+                this.generateExamResult();
             }
+        },
+        generateExamResult() {
+            axios.post(`${this.IP_ENDPOINT}/siswa/nilai/generate`, {
+                idSoal: this.idSoal
+            }, {
+                headers: {
+                    "Authorization": "Bearer " + this.token
+                }
+            })
+                .then(({ data }) => {
+                    console.log(data);
+                    const idNilaiUjian = data.data.idNilaiUjian;
+                    console.log(idNilaiUjian);
+                    this.$router.push({ name: "Selesai Ujian Siswa Page", params: { idNilaiUjian: idNilaiUjian } });
+                })
+                .catch(({ response }) => {
+                    console.error(response);
+                });
         }
     },
     beforeDestroy() {

@@ -64,7 +64,7 @@ const routes = [
                 }
             },
             {
-                path: "selesaiujian/:idSoal",
+                path: "selesaiujian/:idNilaiUjian",
                 name: "Selesai Ujian Siswa Page",
                 component: SelesaiUjianSiswaPage,
                 meta: {
