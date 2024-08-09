@@ -27,7 +27,7 @@
                     </button>
                     <!-- <button @click="raguSoal(indexSoal)" class="text-black bg-yellow-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Ragu</button> -->
                     <div class="flex items-center bg-yellow-400 rounded-lg px-5 py-2.5 me-2 mb-2">
-                        <input type="checkbox" v-model="examStatus.hesitate" @change="hesitateQuestion(indexSoal)"
+                        <input type="checkbox" v-model="examStatusQuestion.hesitate" @change="hesitateQuestion(indexSoal)"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <label for="" class="ms-2 text-md font-medium text-gray-900">Ragu</label>
                     </div>
@@ -105,7 +105,7 @@ export default {
             examFinishTime: null,
             activeTimeFinishesExam: null,
             options: [],
-            examStatus: {
+            examStatusQuestion: {
                 hesitate: false
             },
             examTimeData: {
@@ -171,9 +171,9 @@ export default {
                 ];
 
                 if (soal.statusPertanyaan == "RAGU") {
-                    this.examStatus.hesitate = true;
+                    this.examStatusQuestion.hesitate = true;
                 } else {
-                    this.examStatus.hesitate = false;
+                    this.examStatusQuestion.hesitate = false;
                 }
             }
         },
@@ -201,7 +201,7 @@ export default {
                 });
         },
         changeAnswer(indexSoal) {
-            if (this.examStatus.hesitate) {
+            if (this.examStatusQuestion.hesitate) {
                 this.dataSoal[indexSoal].statusPertanyaan = "RAGU";
             } else {
                 this.dataSoal[indexSoal].statusPertanyaan = "SUDAH_DIJAWAB";
@@ -209,7 +209,7 @@ export default {
             this.createAnswer(indexSoal);
         },
         hesitateQuestion(indexSoal) {
-            if (this.examStatus.hesitate) {
+            if (this.examStatusQuestion.hesitate) {
                 console.log("ragu-ragu");
                 this.dataSoal[indexSoal].statusPertanyaan = "RAGU";
             } else {
