@@ -102,7 +102,10 @@ export default {
             idSoal: this.$route.params.idSoal,
             indexSoal: parseInt(this.$route.params.indexSoal),
             dataSoal: null,
+            examStatus: null,
             examFinishTime: null,
+            examFinishInterval: 0,
+            finishButtonInterval: 0,
             activeTimeFinishesExam: null,
             options: [],
             examStatusQuestion: {
@@ -126,8 +129,8 @@ export default {
     mounted() {
         this.loadItemQuestion();
         this.startCountdownExam();
-        setInterval(this.startCountdownExam, 1000);
-        setInterval(this.startCountdownExamFinishButton, 1000);
+        this.examFinishInterval = setInterval(this.startCountdownExam, 1000);
+        this.finishButtonInterval = setInterval(this.startCountdownExamFinishButton, 1000);
         document.addEventListener("visibilitychange", this.handleVisibilityChange);
     },
     watch: {
@@ -151,6 +154,8 @@ export default {
                     this.dataSoal = data.data.soal;
                     this.examFinishTime = data.data.waktuSelesaiUjian;
                     this.activeTimeFinishesExam = data.data.waktuAktifSelesaiUjian;
+                    this.examStatus = data.data.statusUjian;
+                    this.checkExamStatus();
                     this.initializeOptions();
                     this.startCountdownExam();
                     this.startCountdownExamFinishButton();
@@ -158,6 +163,11 @@ export default {
                 .catch(({ response }) => {
                     console.error(response);
                 });
+        },
+        checkExamStatus(){
+            if (this.examStatus == "SELESAI") {
+                this.generateExamResult();
+            }
         },
         initializeOptions() {
             if (this.dataSoal && this.dataSoal[this.indexSoal]) {
@@ -250,7 +260,7 @@ export default {
             if (distance < 0) {
                 this.examTimeData = { hours: this.formatTime(0), minutes: this.formatTime(0), seconds: this.formatTime(0) }
                 console.log("Selesai");
-                this.$router.push({ name: "Selesai Ujian Siswa Page", params: { idSoal: this.idSoal } });
+                this.generateExamResult();
                 return;
             }
 
@@ -333,8 +343,11 @@ export default {
                 });
         }
     },
-    beforeDestroy() {
+    beforeUnmount() {
         document.removeEventListener("visibilitychange", this.handleVisibilityChange);
+        clearInterval(this.finishButtonInterval);
+        clearInterval(this.examFinishInterval);
+        console.log("unmounted");
     }
 }
 </script>
