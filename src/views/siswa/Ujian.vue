@@ -23,29 +23,57 @@
                 </div>
                 <div class="flex mt-2 gap-2 justify-center md:justify-start">
                     <button @click="prevQuestion()"
-                        class="text-black bg-blue-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Sebelumnya
+                        class="px-5 py-2.5 text-md rounded-lg font-medium text-black inline-flex items-center bg-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-5 h-5 me-2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                        </svg>
+                        Sebelumnya
                     </button>
                     <!-- <button @click="raguSoal(indexSoal)" class="text-black bg-yellow-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Ragu</button> -->
-                    <div class="flex items-center bg-yellow-400 rounded-lg px-5 py-2.5 me-2 mb-2">
-                        <input type="checkbox" v-model="examStatusQuestion.hesitate" @change="hesitateQuestion(indexSoal)"
+                    <div class="flex items-center bg-yellow-400 rounded-lg px-5 py-2.5">
+                        <input type="checkbox" v-model="examStatusQuestion.hesitate"
+                            @change="hesitateQuestion(indexSoal)"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="" class="ms-2 text-md font-medium text-gray-900">Ragu</label>
+                        <label for="" class="ms-2 items-center text-md inline-flex font-medium text-black">
+                            Ragu
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-5 h-5 ms-1">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                            </svg>
+                        </label>
                     </div>
                     <template v-if="dataSoal.length - 1 == indexSoal">
                         <template v-if="isButtonFinishOpen">
                             <button @click="isActiveModalFinishExam = true"
-                                class="text-black bg-green-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Selesai</button>
+                                class="px-5 py-2.5 text-md rounded-lg font-medium text-black inline-flex items-center bg-green-400">
+                                Selesai
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ms-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
+                                </svg>
+                            </button>
                         </template>
                         <template v-else>
                             <button disabled
-                                class="text-black bg-gray-400 font-semibold rounded-lg text-md px-5 py-2.5 me-2 mb-2">{{
+                                class="text-black bg-gray-400 font-semibold rounded-lg text-md px-5 py-2.5">{{
                                     activeFinishButtonTimeData.minutes }} : {{ activeFinishButtonTimeData.seconds
                                 }}</button>
                         </template>
                     </template>
                     <template v-else>
                         <button @click="nextQuestion()"
-                            class="text-black bg-blue-400 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2">Selanjutnya</button>
+                            class="px-5 py-2.5 text-md rounded-lg font-medium text-black inline-flex items-center bg-blue-400">
+                            Selanjutnya
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-5 h-5 ms-2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                            </svg>
+                        </button>
                     </template>
                 </div>
             </div>
@@ -57,7 +85,7 @@
                     <template v-for="(dataSoalItem, dataSoalIndex) in dataSoal">
                         <RouterLink
                             :to="{ name: 'Ujian Siswa Page', params: { idSoal: this.idSoal, indexSoal: dataSoalIndex } }"
-                            :class="backgroundNavigatorQuestion(dataSoalItem.statusPertanyaan)"
+                            :class="backgroundNavigatorQuestion(dataSoalIndex, dataSoalItem.statusPertanyaan)"
                             class="bg-gray-200 text-black rounded-lg w-full h-20 shadow-xl flex items-center justify-center">
                             {{ dataSoalIndex + 1 }}
                         </RouterLink>
@@ -67,11 +95,18 @@
         </div>
         <div v-show="isActiveModalFinishExam"
             class="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
-            <div class="bg-white px-16 py-14 rounded-md text-center">
+            <div class="bg-white px-16 py-10 rounded-md text-center">
+                <div class="flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-2/6 fill-yellow-500">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                    </svg>
+                </div>
                 <h1 class="text-xl mb-4 font-bold text-slate-500">Apakah Anda Ingin Mengakhiri Ujian?</h1>
                 <div class="grid grid-cols-2 gap-1">
                     <button @click="finishExam()"
-                        class="bg-gray-500 px-4 py-2 rounded-md text-md font-semibold text-white">Selesai</button>
+                        class="bg-blue-500 px-4 py-2 rounded-md text-md font-semibold text-white">Selesai</button>
                     <button @click="isActiveModalFinishExam = false"
                         class="bg-red-500 px-4 py-2 rounded-md text-md font-semibold text-white ml-1">Batal</button>
                 </div>
@@ -80,7 +115,14 @@
         <div v-show="isError"
             class="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
             <div class="bg-white px-16 py-14 rounded-md text-center">
-                <h1 class="text-xl mb-4 font-bold text-slate-500">{{ errorMessage }}</h1>
+                <div class="flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-2/6 fill-red-500">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                    </svg>
+                </div>
+                <h1 class="text-xl mb-4 font-bold text-black">{{ errorMessage }}</h1>
                 <div class="grid grid-cols-1">
                     <button @click="isError = false"
                         class="bg-gray-500 px-4 py-2 rounded-md text-md font-semibold text-white">Ok</button>
@@ -164,7 +206,7 @@ export default {
                     console.error(response);
                 });
         },
-        checkExamStatus(){
+        checkExamStatus() {
             if (this.examStatus == "SELESAI") {
                 this.generateExamResult();
             }
@@ -293,13 +335,18 @@ export default {
                 window.location.reload();
             }
         },
-        backgroundNavigatorQuestion(statusPertanyaan) {
-            if (statusPertanyaan === "BELUM_DIJAWAB") {
-                return 'bg-gray-200';
-            } else if (statusPertanyaan === "SUDAH_DIJAWAB") {
-                return 'bg-green-200';
-            } else {
-                return 'bg-yellow-200';
+        backgroundNavigatorQuestion(indexSoal, statusPertanyaan) {
+            if (indexSoal === this.indexSoal) {
+                return 'bg-blue-200';
+            }
+
+            switch (statusPertanyaan) {
+                case "BELUM_DIJAWAB":
+                    return 'bg-gray-200';
+                case "SUDAH_DIJAWAB":
+                    return 'bg-green-200';
+                default:
+                    return 'bg-yellow-200';
             }
         },
         convertStatusPertanyaanString(input) {
