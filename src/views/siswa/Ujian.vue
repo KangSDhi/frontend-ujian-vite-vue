@@ -14,7 +14,7 @@
                     {{ dataSoal[indexSoal].pertanyaan }}
                 </div>
                 <div v-show="isImageQuestionShow">
-                    <img :src="imageQuestion" class="max-h-72 m-2 border-solid border-2 border-black rounded-lg" alt="Gambar Pertanyaan">
+                    <img :src="imageQuestion" class="max-h-72 max-w-md m-2 border-solid border-2 border-black rounded-lg" alt="Gambar Pertanyaan">
                 </div>
                 <div v-for="(option, optionIndex) in options" class="flex ml-2 items-center">
                     <input type="radio" v-model="dataSoal[indexSoal].jawaban" :value="option.value"
@@ -236,7 +236,7 @@ export default {
                 for(let option of options){
                     if (this.isValidUUIDImage(option.value)) {
                         try {
-                            const { data } = await axios.get(`${this.IP_ENDPOINT}/siswa/ujian/gambarjawaban/geturl?gambarJawaban=${option.value}`, {
+                            const { data } = await axios.get(`${this.IP_ENDPOINT}/siswa/ujian/gambarjawaban/url?gambarJawaban=${option.value}`, {
                                 headers: {
                                     "Authorization": `Bearer ${this.token}`
                                 }
@@ -418,7 +418,7 @@ export default {
             if (this.dataSoal && this.dataSoal[this.indexSoal]) {
                 const questionImage = this.dataSoal[this.indexSoal].gambarPertanyaan;
                 if (questionImage != null) {
-                    axios.get(`${this.IP_ENDPOINT}/siswa/ujian/gambarpertanyaan/geturl?gambarPertanyaan=${questionImage}`, {
+                    axios.get(`${this.IP_ENDPOINT}/siswa/ujian/gambarpertanyaan/url?gambarPertanyaan=${questionImage}`, {
                         headers: {
                             "Authorization": "Bearer " + this.token
                         }
@@ -436,9 +436,6 @@ export default {
                 }
 
             }
-        },
-        initializeAnswerImage(answerImage) {
-
         },
         isValidUUIDImage(filename) {
             const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(png|jpg|jpeg)$/i;
