@@ -13,13 +13,21 @@
                 <div class="flex mt-2 mb-2 ml-2 text-3xl">
                     {{ dataSoal[indexSoal].pertanyaan }}
                 </div>
+                <div v-show="isImageQuestionShow">
+                    <img :src="imageQuestion" class="max-h-72 m-2 border-solid border-2 border-black rounded-lg" alt="Gambar Pertanyaan">
+                </div>
                 <div v-for="(option, optionIndex) in options" class="flex ml-2 items-center">
                     <input type="radio" v-model="dataSoal[indexSoal].jawaban" :value="option.value"
                         @change="changeAnswer(indexSoal)"
                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="default-radio-1" class="ms-3 text-2xl font-medium text-gray-900">
-                        {{ option.label }}
-                    </label>
+                    <template v-if="option.isImageExists">
+                        <img :src="option.label" class="max-h-44 m-2 border-solid border-2 border-black rounded-lg" alt="Gambar Jawaban">
+                    </template>
+                    <template v-else>
+                        <label for="default-radio-1" class="ms-3 text-2xl font-medium text-gray-900">
+                            {{ option.label }}
+                        </label>
+                    </template>
                 </div>
                 <div class="flex mt-2 gap-2 justify-center md:justify-start">
                     <button @click="prevQuestion()"
@@ -86,7 +94,7 @@
                         <RouterLink
                             :to="{ name: 'Ujian Siswa Page', params: { idSoal: this.idSoal, indexSoal: dataSoalIndex } }"
                             :class="backgroundNavigatorQuestion(dataSoalIndex, dataSoalItem.statusPertanyaan)"
-                            class="bg-gray-200 text-black rounded-lg w-full h-20 shadow-xl flex items-center justify-center">
+                            class="text-black rounded-lg w-full h-20 shadow-xl flex items-center justify-center">
                             {{ dataSoalIndex + 1 }}
                         </RouterLink>
                     </template>
@@ -149,6 +157,8 @@ export default {
             examFinishInterval: 0,
             finishButtonInterval: 0,
             activeTimeFinishesExam: null,
+            isImageQuestionShow: false,
+            imageQuestion: null,
             options: [],
             examStatusQuestion: {
                 hesitate: false
@@ -179,6 +189,7 @@ export default {
         '$route.params.indexSoal': {
             handler(newIndex) {
                 this.indexSoal = parseInt(newIndex);
+                this.initializeQuestionImage();
                 this.initializeOptions();
             },
             immediate: true
@@ -198,6 +209,7 @@ export default {
                     this.activeTimeFinishesExam = data.data.waktuAktifSelesaiUjian;
                     this.examStatus = data.data.statusUjian;
                     this.checkExamStatus();
+                    this.initializeQuestionImage();
                     this.initializeOptions();
                     this.startCountdownExam();
                     this.startCountdownExamFinishButton();
@@ -211,22 +223,35 @@ export default {
                 this.generateExamResult();
             }
         },
-        initializeOptions() {
+        async initializeOptions() {
             if (this.dataSoal && this.dataSoal[this.indexSoal]) {
                 const soal = this.dataSoal[this.indexSoal];
-                this.options = [
-                    { label: soal.pilihanA, value: soal.pilihanA },
-                    { label: soal.pilihanB, value: soal.pilihanB },
-                    { label: soal.pilihanC, value: soal.pilihanC },
-                    { label: soal.pilihanD, value: soal.pilihanD },
-                    { label: soal.pilihanE, value: soal.pilihanE },
-                ];
+                
+                const options = ['A', 'B', 'C', 'D', 'E'].map(letter => ({
+                    label: soal[`pilihan${letter}`],
+                    value: soal[`pilihan${letter}`],
+                    isImageExists: false
+                }));
 
-                if (soal.statusPertanyaan == "RAGU") {
-                    this.examStatusQuestion.hesitate = true;
-                } else {
-                    this.examStatusQuestion.hesitate = false;
+                for(let option of options){
+                    if (this.isValidUUIDImage(option.value)) {
+                        try {
+                            const { data } = await axios.get(`${this.IP_ENDPOINT}/siswa/ujian/gambarjawaban/geturl?gambarJawaban=${option.value}`, {
+                                headers: {
+                                    "Authorization": `Bearer ${this.token}`
+                                }
+                            });
+                            option.isImageExists = true;
+                            option.label = data.data.url
+                        } catch (error) {
+                            console.error(error.response);              
+                        }
+                    }
                 }
+
+                console.table(options);
+                this.options = options;
+                this.examStatusQuestion.hesitate = soal.statusPertanyaan === "RAGU";
             }
         },
         createAnswer(indexSoal) {
@@ -388,6 +413,36 @@ export default {
                 .catch(({ response }) => {
                     console.error(response);
                 });
+        },
+        initializeQuestionImage() {
+            if (this.dataSoal && this.dataSoal[this.indexSoal]) {
+                const questionImage = this.dataSoal[this.indexSoal].gambarPertanyaan;
+                if (questionImage != null) {
+                    axios.get(`${this.IP_ENDPOINT}/siswa/ujian/gambarpertanyaan/geturl?gambarPertanyaan=${questionImage}`, {
+                        headers: {
+                            "Authorization": "Bearer " + this.token
+                        }
+                    })
+                        .then(({ data }) => {
+                            this.isImageQuestionShow = true;
+                            this.imageQuestion = data.data.url;
+                        })
+                        .catch(({ response }) => {
+                            console.error(response);
+                        });
+                } else {
+                    this.isImageQuestionShow = false;
+                    this.imageQuestion = null;
+                }
+
+            }
+        },
+        initializeAnswerImage(answerImage) {
+
+        },
+        isValidUUIDImage(filename) {
+            const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(png|jpg|jpeg)$/i;
+            return regex.test(filename);
         }
     },
     beforeUnmount() {
