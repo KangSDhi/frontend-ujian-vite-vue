@@ -25,6 +25,10 @@
                         <div class="flex">
                             <div class="flex-auto font-mono">Durasi : {{ dataSoal.durasiSoal }}</div>
                         </div>
+                        <div class="flex">
+                            <div class="font-mono">Token : </div>
+                            <input type="text" v-model="tokenSoal" class="flex-auto ml-2 p-1 border border-solid border-black rounded-md">
+                        </div>
                         <div @click="startUjian()" class="flex mt-5">
                             <button class="w-full justify-center rounded-md bg-gradient-to-tr from-blue-600 to-indigo-400 shadow-blue-500/20 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Mulai</button>
                         </div>
@@ -55,6 +59,7 @@ export default {
             IP_ENDPOINT: import.meta.env.VITE_IP_API_ENDPOINT,
             token: localStorage.getItem("auth_token"),
             idSoal: this.$route.params.idSoal,
+            tokenSoal: "",
             dataSoal: null,
             isError: false,
             errorMessage: "",
@@ -79,7 +84,21 @@ export default {
                 });
         },
         startUjian(){
-            this.checkUjianIn();
+            axios.get(`${this.IP_ENDPOINT}/siswa/soal/check/token?token=${this.tokenSoal}&idSoal=${this.idSoal}`, {
+                headers: {
+                    "Authorization": "Bearer " + this.token
+                }
+            })
+            .then(({ data }) => {
+                if (data.httpCode == 200 && data.message == "Token Benar!") {
+                    this.checkUjianIn();      
+                }
+            })
+            .catch(({ response }) => {
+                const data = response.data;
+                this.isError = true;
+                this.errorMessage = data.message;
+            });
         },
         checkUjianIn(){
             axios.get(`${this.IP_ENDPOINT}/siswa/ujian/checkin?idSoal=${this.idSoal}`, {
