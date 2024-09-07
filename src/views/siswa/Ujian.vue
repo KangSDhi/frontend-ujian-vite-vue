@@ -19,6 +19,7 @@
                 <div v-for="(option, optionIndex) in options" class="flex ml-2 items-center">
                     <input type="radio" v-model="dataSoal[indexSoal].jawaban" :value="option.value"
                         @change="changeAnswer(indexSoal)"
+                        :key="option.value"
                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <template v-if="option.isImageExists">
                         <img :src="option.label" class="max-h-44 m-2 border-solid border-2 border-black rounded-lg" alt="Gambar Jawaban">

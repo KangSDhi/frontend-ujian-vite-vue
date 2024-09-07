@@ -67,7 +67,7 @@ export default {
     },
     methods: {
         loadMataUjian() {
-            axios.post(`${this.IP_ENDPOINT}/siswa/mata-ujian`, {
+            axios.post(`${this.IP_ENDPOINT}/siswa/ujian/list`, {
                 tingkat: this.dataSiswa.tingkat,
                 jurusan: this.dataSiswa.jurusan
             }, {
