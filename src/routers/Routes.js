@@ -1,5 +1,6 @@
 import LoginPage from "../views/auth/Login.vue";
 import DashboardAdminPage from "../views/admin/Dashboard.vue"
+import DataSoalAdminPage from "../views/admin/DataSoal.vue";
 import DashboardSiswaPage from "../views/siswa/Dashboard.vue";
 import MataUjianSiswaPage from "../views/siswa/MataUjian.vue";
 import MulaiUjianSiswaPage from "../views/siswa/MulaiUjian.vue";
@@ -24,6 +25,14 @@ const routes = [
                 component: DashboardAdminPage,
                 meta: {
                     title: "Dashboard Admin"
+                }
+            },
+            {
+                path: "datasoal",
+                name: "Data Soal Admin Page",
+                component: DataSoalAdminPage,
+                meta: {
+                    title: "Data Soal"
                 }
             }
         ]
