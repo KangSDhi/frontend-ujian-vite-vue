@@ -15,7 +15,7 @@
                     </select>
                 </div>
                 <div class="grid grid-cols-1">
-                    <button
+                    <button @click="isFormCreateSoal = true"
                         class="px-5 py-2 h-10 w-40 justify-self-center bg-blue-200 dark:bg-blue-400 hover:bg-blue-300 dark:hover:bg-blue-500 text-sm me-2 rounded-lg inline-flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-6 h-6">
@@ -325,6 +325,20 @@
                     </li>
                 </ul>
             </nav>
+            <div v-show="isFormCreateSoal"
+                class="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
+                <div class="z-50 bg-white dark:bg-gray-900 px-16 py-14 rounded-md">
+                    <h1 class="text-xl mb-4 font-bold dark:text-slate-200 text-slate-500">Tambah Soal</h1>
+                    <div class="grid md:grid-cols-2 gap-1">
+                        <div>
+                            <label for="input-nama-soal-create" class="block mb-2 text-sm font-medium dark:text-slate-300 text-slate-900">Nama Soal</label>
+                            <input id="input-nama-soal-create" type="text" v-model="dataCreateSoal.namaSoal"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <span class="text-red-500 text-sm font-bold">???</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </template>
     </BaseLayout>
 </template>
@@ -335,10 +349,13 @@ import BaseLayout from './BaseLayout.vue';
 import Fuse from 'fuse.js';
 
 export default {
+    name: "DataSoal",
     data() {
         return {
             IP_ENDPOINT: import.meta.env.VITE_IP_API_ENDPOINT,
             token: localStorage.getItem("auth_token"),
+            dataTingkat: [],
+            dataJurusan: [],
             dataSoal: [],
             dataSoalTemp: [],
             listView: [10, 25, 50, 100],
@@ -353,6 +370,18 @@ export default {
                 offset: 5,
                 from: 1,
                 to: 10
+            },
+            isFormCreateSoal: false,
+            dataCreateSoal: {
+                namaSoal: "",
+                tingkatSoal: "",
+                jurusanSoal: "",
+                acakSoal: "",
+                butirSoal: 0,
+                tipeSoal: "",
+                durasiSoal: "",
+                waktuMulaiSoal: "",
+                waktuSelesaiSoal: ""   
             }
         }
     },
@@ -361,6 +390,8 @@ export default {
     },
     mounted() {
         this.loadDataSoal();
+        this.loadDataTingkat();
+        this.loadDataJurusan();
     },
     watch: {
         searchInput: function (newVal, oldVal) {
@@ -368,6 +399,35 @@ export default {
         }
     },
     methods: {
+        loadDataTingkat(){
+            axios.get(`${this.IP_ENDPOINT}/admin/tingkat`, {
+                headers: {
+                    "Authorization": "Bearer " + this.token
+                }
+            })
+            .then(({ data }) => {
+                console.log(data);
+                this.dataTingkat = data.data;
+            })
+            .catch(({ response }) => {
+                console.error(response);
+            });
+        },
+        loadDataJurusan(){
+            axios.get(`${this.IP_ENDPOINT}/admin/jurusan`, {
+                headers: {
+                    "Authorization": "Bearer " + this.token
+                }
+            })
+            .then(({ data }) => {
+                console.log(data);
+                this.dataJurusan = data.data;
+            })
+            .catch(({ response }) => {
+                console.error(response);
+                
+            });
+        },
         loadDataSoal() {
             axios.get(`${this.IP_ENDPOINT}/admin/soal`, {
                 headers: {
