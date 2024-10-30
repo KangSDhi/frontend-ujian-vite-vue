@@ -1,6 +1,6 @@
 import LoginPage from "../views/auth/Login.vue";
 import DashboardAdminPage from "../views/admin/Dashboard.vue"
-import DataSoalAdminPage from "../views/admin/DataSoal.vue";
+import QuestionManagementAdminPage from "../views/admin/QuestionManagementPage.vue";
 import DashboardSiswaPage from "../views/siswa/Dashboard.vue";
 import MataUjianSiswaPage from "../views/siswa/MataUjian.vue";
 import MulaiUjianSiswaPage from "../views/siswa/MulaiUjian.vue";
@@ -28,11 +28,11 @@ const routes = [
                 }
             },
             {
-                path: "datasoal",
-                name: "Data Soal Admin Page",
-                component: DataSoalAdminPage,
+                path: "question-management",
+                name: "Question Management Admin Page",
+                component: QuestionManagementAdminPage,
                 meta: {
-                    title: "Data Soal"
+                    title: "Manajemen Soal"
                 }
             }
         ]
