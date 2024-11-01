@@ -5,8 +5,9 @@
             <div class="grid md:grid-cols-2 gap-1">
                 <div>
                     <label for="input-question-name"
-                        class="block mb-2 text-sm font-medium dark:text-slate-300 text-slate-900">Nama
-                        Soal (Unique Key)</label>
+                        class="block mb-2 text-sm font-medium dark:text-slate-300 text-slate-900">
+                        Nama Soal
+                    </label>
                     <input id="input-question-name" type="text" v-model="dataCreateQuestions.questionName"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorCreateQuestions.questionNameErrorMessage }">
