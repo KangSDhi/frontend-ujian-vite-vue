@@ -106,7 +106,7 @@ export default {
         },
         async checkSoalById(id) {
             try {
-                const { data } = await axios.get(`${this.IP_ENDPOINT}/admin/soal/findit?idSoal=${id}`, {
+                const { data } = await axios.get(`${this.IP_ENDPOINT}/admin/soal/findbyid/${id}`, {
                     headers: {
                         Authorization: `Bearer ${this.token}`
                     }
