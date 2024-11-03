@@ -70,7 +70,7 @@ export default {
     },
     methods: {
         loadSoal() {
-            axios.get(`${this.IP_ENDPOINT}/siswa/soal/findit?idSoal=${this.idSoal}`, {
+            axios.get(`${this.IP_ENDPOINT}/siswa/soal/findbyid/${this.idSoal}`, {
                 headers: {
                     "Authorization": "Bearer " + this.token
                 }

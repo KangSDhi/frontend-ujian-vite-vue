@@ -59,14 +59,14 @@ export default {
     },
     methods: {
         loadResultExam() {
-            console.log(this.idNilaiUjian);
-            axios.get(`${this.IP_ENDPOINT}/siswa/nilai/findit?idNilaiUjian=${this.idNilaiUjian}`, {
+            // console.log(this.idNilaiUjian);
+            axios.get(`${this.IP_ENDPOINT}/siswa/nilai/findbyid/${this.idNilaiUjian}`, {
                 headers: {
                     "Authorization": "Bearer " + this.token
                 }
             })
                 .then(({ data }) => {
-                    console.log(data);
+                    // console.log(data);
                     const nilaiUjian = data.data.nilaiUjian;
                     console.log(nilaiUjian);
                     this.nilaiUjian = nilaiUjian;
