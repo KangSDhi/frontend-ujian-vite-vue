@@ -1,5 +1,6 @@
 import LoginPage from "../views/auth/Login.vue";
 import DashboardAdminPage from "../views/admin/Dashboard.vue"
+import LevelAndStudyProgramsManagementPage from "../views/admin/LevelAndStudyProgramsManagementPage.vue";
 import QuestionManagementAdminPage from "../views/admin/QuestionManagementPage.vue";
 import DashboardSiswaPage from "../views/siswa/Dashboard.vue";
 import MataUjianSiswaPage from "../views/siswa/MataUjian.vue";
@@ -25,6 +26,14 @@ const routes = [
                 component: DashboardAdminPage,
                 meta: {
                     title: "Dashboard Admin"
+                }
+            },
+            {
+                path: "level-and-study-programs-management",
+                name: "Level And Study Programs Management Page",
+                component: LevelAndStudyProgramsManagementPage,
+                meta: {
+                    title: "Manajemen Tingkat & Jurusan"
                 }
             },
             {
