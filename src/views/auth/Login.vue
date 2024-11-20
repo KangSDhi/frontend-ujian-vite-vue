@@ -92,7 +92,7 @@ export default {
         login(){
             this.resetForm();
             axios.post(`${this.IP_ENDPOINT}/auth/signin`, {
-                emailOrIdSiswa: this.emailOrIdSiswa,
+                email_or_id_siswa: this.emailOrIdSiswa,
                 password: this.password
             })
             .then(({ data }) => {
@@ -114,7 +114,7 @@ export default {
                 if(this.isObject(errorMessages)){
                     Object.keys(errorMessages).forEach((key) => {
                         
-                        if (key == "emailOrIdSiswa") {
+                        if (key == "email_or_id_siswa") {
                             this.isEmailOrIdSiswaError = true;
                             this.emailOrIdSiswaErrorMessage = errorMessages[key];
                         }
