@@ -8,7 +8,7 @@
                         class="block mb-2 text-sm font-medium dark:text-slate-300 text-slate-900">Nama
                         Soal
                     </label>
-                    <input id="input-question-name" type="text" v-model="questionDataEdit.namaSoal"
+                    <input id="input-question-name" type="text" v-model="questionDataEdit.nama_soal"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorUpdateQuestion.questionNameErrorMessage }">
                     <span class="text-red-500 text-sm font-bold"> {{ errorUpdateQuestion.questionNameErrorMessage
@@ -21,7 +21,7 @@
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorUpdateQuestion.questionLevelErrorMessage }">
                         <template v-for="(item, index) in level" :key="index">
-                            <option :value="item.tingkat">{{ item.tingkat }}</option>
+                            <option :value="item.nama_tingkat">{{ item.nama_tingkat }}</option>
                         </template>
                     </select>
                     <span class="text-red-500 text-sm font-bold">{{ errorUpdateQuestion.questionLevelErrorMessage
@@ -35,7 +35,7 @@
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorUpdateQuestion.questionStudyProgramErrorMessage }">
                         <option :value="null">Semua Jurusan</option>
                         <template v-for="(item, index) in studyProgram" :key="index">
-                            <option :value="item.jurusan">{{ item.jurusan }}</option>
+                            <option :value="item.nama_jurusan">{{ item.nama_jurusan }}</option>
                         </template>
                     </select>
                     <span class="text-red-500 text-sm font-bold">{{ errorUpdateQuestion.questionStudyProgramErrorMessage
@@ -44,7 +44,7 @@
                 <div>
                     <label for="input-question-shuffle"
                         class="block mb-2 text-sm font-medium dark:text-slate-300 text-slate-900">Acak</label>
-                    <select id="input-question-shuffle" v-model="questionDataEdit.acakSoal"
+                    <select id="input-question-shuffle" v-model="questionDataEdit.acak_soal"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorUpdateQuestion.questionShuffleErrorMessage }">
                         <option value="ACAK">Acak</option>
@@ -56,7 +56,7 @@
                 <div>
                     <label for="input-question-item"
                         class="block mb-2 text-sm font-medium dark:text-slate-300 text-slate-900">Butir</label>
-                    <input id="input-question-item" type="number" v-model="questionDataEdit.butirSoal"
+                    <input id="input-question-item" type="number" v-model="questionDataEdit.butir_soal"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorUpdateQuestion.questionItemErrorMessage }">
                     <span class="text-red-500 text-sm font-bold">{{ errorUpdateQuestion.questionItemErrorMessage
@@ -65,7 +65,7 @@
                 <div>
                     <label for="input-question-type"
                         class="block mb-2 text-sm font-medium dark:text-slate-300 text-slate-900">Tipe</label>
-                    <select id="input-question-type" v-model="questionDataEdit.tipeSoal"
+                    <select id="input-question-type" v-model="questionDataEdit.tipe_soal"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorUpdateQuestion.questionTypeErrorMessage }">
                         <option value="PILIHAN_GANDA">Pilihan Ganda</option>
@@ -79,7 +79,7 @@
                         class="block mb-2 text-sm font-medium dark:text-slate-300 text-slate-900">Waktu
                         Mulai</label>
                     <input id="input-question-start-time" type="datetime-local"
-                        v-model="questionDataEdit.waktuMulaiSoal"
+                        v-model="questionDataEdit.waktu_mulai_soal"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorUpdateQuestion.questionStartTimeErrorMessage }">
                     <span class="text-red-500 text-sm font-bold">{{ errorUpdateQuestion.questionStartTimeErrorMessage
@@ -89,7 +89,7 @@
                     <label for="input-question-end-time"
                         class="block mb-2 text-sm font-medium dark:text-slate-300 text-slate-900">Waktu
                         Selesai</label>
-                    <input id="input-question-end-time" type="datetime-local" v-model="questionDataEdit.waktuSelesaiSoal"
+                    <input id="input-question-end-time" type="datetime-local" v-model="questionDataEdit.waktu_selesai_soal"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorUpdateQuestion.questionEndTimeErrorMessage }">
                     <span class="text-red-500 text-sm font-bold">{{ errorUpdateQuestion.questionEndTimeErrorMessage
@@ -99,7 +99,7 @@
                     <label for="input-question-duration"
                         class="block mb-2 text-sm font-medium dark:text-slate-300 text-slate-900">Durasi</label>
                     <input id="input-question-duration" type="text" pattern="^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$"
-                        v-model="questionDataEdit.durasiSoal"
+                        v-model="questionDataEdit.durasi_soal"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorUpdateQuestion.questionDurationErrorMessage }"
                         required>
@@ -171,16 +171,16 @@ export default {
     methods: {
         updateQuestion() {
             axios.put(`${this.IP_ENDPOINT}/admin/soal/update`, {
-                idSoal: this.questionDataEdit.id,
-                namaSoal: this.questionDataEdit.namaSoal,
-                tingkatSoal: this.questionDataEdit.tingkat,
-                jurusanSoal: this.questionDataEdit.jurusan,
-                acakSoal: this.questionDataEdit.acakSoal,
-                butirSoal: this.questionDataEdit.butirSoal,
-                tipeSoal: this.questionDataEdit.tipeSoal,
-                durasiSoal: this.questionDataEdit.durasiSoal,
-                waktuMulaiSoal: this.formatDate(this.questionDataEdit.waktuMulaiSoal),
-                waktuSelesaiSoal: this.formatDate(this.questionDataEdit.waktuSelesaiSoal)
+                id: this.questionDataEdit.id,
+                nama_soal: this.questionDataEdit.nama_soal,
+                tingkat: this.questionDataEdit.tingkat,
+                jurusan: this.questionDataEdit.jurusan,
+                acak_soal: this.questionDataEdit.acak_soal,
+                butir_soal: this.questionDataEdit.butir_soal,
+                tipe_soal: this.questionDataEdit.tipe_soal,
+                durasi_soal: this.questionDataEdit.durasi_soal,
+                waktu_mulai_soal: this.formatDate(this.questionDataEdit.waktu_mulai_soal),
+                waktu_selesai_soal: this.formatDate(this.questionDataEdit.waktu_selesai_soal)
             }, {
                 headers: {
                     Authorization: `Bearer ${this.token}`
@@ -197,39 +197,39 @@ export default {
                 if(this.isObject(errorMessages)){
                     Object.keys(errorMessages).forEach((key) => {
                         
-                        if (key === "namaSoal") {
+                        if (key === "nama_soal") {
                             this.errorUpdateQuestion.questionNameErrorMessage = errorMessages[key];
                         }
 
-                        if (key === "tingkatSoal") {
+                        if (key === "tingkat") {
                             this.errorUpdateQuestion.questionLevelErrorMessage = errorMessages[key];
                         }
 
-                        if (key === "jurusanSoal") {
+                        if (key === "jurusan") {
                             this.errorUpdateQuestion.questionStudyProgramErrorMessage = errorMessages[key];
                         }
 
-                        if (key === "acakSoal") {
+                        if (key === "acak_soal") {
                             this.errorUpdateQuestion.questionShuffleErrorMessage = errorMessages[key];
                         }
 
-                        if (key === "butirSoal") {
+                        if (key === "butir_soal") {
                             this.errorUpdateQuestion.questionItemErrorMessage = errorMessages[key];
                         }
 
-                        if (key === "tipeSoal") {
+                        if (key === "tipe_soal") {
                             this.errorUpdateQuestion.questionTypeErrorMessage = errorMessages[key];
                         }
 
-                        if (key === "waktuMulaiSoal") {
+                        if (key === "waktu_mulai_soal") {
                             this.errorUpdateQuestion.questionStartTimeErrorMessage = errorMessages[key];
                         }
 
-                        if (key === "waktuSelesaiSoal") {
+                        if (key === "waktu_selesai_soal") {
                             this.errorUpdateQuestion.questionEndTimeErrorMessage = errorMessages[key];
                         }
 
-                        if (key === "durasiSoal") {
+                        if (key === "durasi_soal") {
                             this.errorUpdateQuestion.questionDurationErrorMessage = errorMessages[key];
                         }
 

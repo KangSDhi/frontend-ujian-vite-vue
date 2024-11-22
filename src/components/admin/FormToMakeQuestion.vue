@@ -21,7 +21,7 @@
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorCreateQuestions.questionLevelErrorMessage }">
                         <template v-for="(item, index) in level" :key="index">
-                            <option :value="item.tingkat">{{ item.tingkat }}</option>
+                            <option :value="item.nama_tingkat">{{ item.nama_tingkat }}</option>
                         </template>
                     </select>
                     <span class="text-red-500 text-sm font-bold">{{ errorCreateQuestions.questionLevelErrorMessage
@@ -35,7 +35,7 @@
                         :class="{ 'border-2 border-red-400 dark:border-2 dark:border-red-500': errorCreateQuestions.questionStudyProgramErrorMessage }">
                         <option :value="null">Semua Jurusan</option>
                         <template v-for="(item, index) in studyProgram" :key="index">
-                            <option :value="item.jurusan">{{ item.jurusan }}</option>
+                            <option :value="item.nama_jurusan">{{ item.nama_jurusan }}</option>
                         </template>
                     </select>
                     <span class="text-red-500 text-sm font-bold">{{
@@ -179,15 +179,15 @@ export default {
         createQuestions() {
             console.table(this.dataCreateQuestions);
             axios.post(`${this.IP_ENDPOINT}/admin/soal/create`, {
-                namaSoal: this.dataCreateQuestions.questionName,
-                tingkatSoal: this.dataCreateQuestions.questionLevel,
-                jurusanSoal: this.dataCreateQuestions.questionStudyProgram,
-                acakSoal: this.dataCreateQuestions.questionShuffle,
-                butirSoal: this.dataCreateQuestions.questionItem,
-                tipeSoal: this.dataCreateQuestions.questionType,
-                durasiSoal: this.dataCreateQuestions.questionDuration,
-                waktuMulaiSoal: this.formatDate(this.dataCreateQuestions.questionStartTime),
-                waktuSelesaiSoal: this.formatDate(this.dataCreateQuestions.questionEndTime)
+                nama_soal: this.dataCreateQuestions.questionName,
+                tingkat: this.dataCreateQuestions.questionLevel,
+                jurusan: this.dataCreateQuestions.questionStudyProgram,
+                acak_soal: this.dataCreateQuestions.questionShuffle,
+                butir_soal: this.dataCreateQuestions.questionItem,
+                tipe_soal: this.dataCreateQuestions.questionType,
+                durasi_soal: this.dataCreateQuestions.questionDuration,
+                waktu_mulai_soal: this.formatDate(this.dataCreateQuestions.questionStartTime),
+                waktu_selesai_soal: this.formatDate(this.dataCreateQuestions.questionEndTime)
             }, {
                 headers: {
                     "Authorization": "Bearer " + this.token
@@ -206,39 +206,39 @@ export default {
                     
                     if (this.isObject(errorMessages)) {
                         Object.keys(errorMessages).forEach((key) => {
-                            if (key == "namaSoal") {
+                            if (key == "nama_soal") {
                                 this.errorCreateQuestions.questionNameErrorMessage = errorMessages[key];
                             }
 
-                            if (key == "acakSoal") {
+                            if (key == "acak_soal") {
                                 this.errorCreateQuestions.questionShuffleErrorMessage = errorMessages[key];
                             }
 
-                            if (key == "butirSoal") {
+                            if (key == "butir_soal") {
                                 this.errorCreateQuestions.questionItemErrorMessage = errorMessages[key];
                             }
 
-                            if (key == "durasiSoal") {
+                            if (key == "durasi_soal") {
                                 this.errorCreateQuestions.questionDurationErrorMessage = errorMessages[key];
                             }
 
-                            if (key == "jurusanSoal") {
+                            if (key == "jurusan") {
                                 this.errorCreateQuestions.questionStudyProgramErrorMessage = errorMessages[key];
                             }
 
-                            if (key == "tingkatSoal") {
+                            if (key == "tingkat") {
                                 this.errorCreateQuestions.questionLevelErrorMessage = errorMessages[key];
                             }
 
-                            if (key == "tipeSoal") {
+                            if (key == "tipe_soal") {
                                 this.errorCreateQuestions.questionTypeErrorMessage = errorMessages[key];
                             }
 
-                            if (key == "waktuMulaiSoal") {
+                            if (key == "waktu_mulai_soal") {
                                 this.errorCreateQuestions.questionStartTimeErrorMessage = errorMessages[key];
                             }
 
-                            if (key == "waktuSelesaiSoal") {
+                            if (key == "waktu_selesai_soal") {
                                 this.errorCreateQuestions.questionEndTimeErrorMessage = errorMessages[key];
                             }
                         })

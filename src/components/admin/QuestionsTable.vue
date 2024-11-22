@@ -46,14 +46,14 @@
                     <th scope="col" class="px-6 py-3">
                         <div class="flex items-center">
                             <div class="flex flex-col mr-1">
-                                <button @click="sortByHeader('namaSoal', 'asc')">
+                                <button @click="sortByHeader('nama_soal', 'asc')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m4.5 15.75 7.5-7.5 7.5 7.5" />
                                     </svg>
                                 </button>
-                                <button @click="sortByHeader('namaSoal', 'desc')">
+                                <button @click="sortByHeader('nama_soal', 'desc')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -109,14 +109,14 @@
                     <th scope="col" class="px-6 py-3">
                         <div class="flex items-center">
                             <div class="flex flex-col mr-1">
-                                <button @click="sortByHeader('butirSoal', 'asc')">
+                                <button @click="sortByHeader('butir_soal', 'asc')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m4.5 15.75 7.5-7.5 7.5 7.5" />
                                     </svg>
                                 </button>
-                                <button @click="sortByHeader('butirSoal', 'desc')">
+                                <button @click="sortByHeader('butir_soal', 'desc')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -130,14 +130,14 @@
                     <th scope="col" class="px-6 py-3">
                         <div class="flex items-center">
                             <div class="flex flex-col mr-1">
-                                <button @click="sortByHeader('durasiSoal', 'asc')">
+                                <button @click="sortByHeader('durasi_soal', 'asc')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m4.5 15.75 7.5-7.5 7.5 7.5" />
                                     </svg>
                                 </button>
-                                <button @click="sortByHeader('durasiSoal', 'desc')">
+                                <button @click="sortByHeader('durasi_soal', 'desc')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -151,14 +151,14 @@
                     <th scope="col" class="px-6 py-3">
                         <div class="flex items-center">
                             <div class="flex flex-col mr-1">
-                                <button @click="sortByHeader('waktuMulaiSoal', 'asc')">
+                                <button @click="sortByHeader('waktu_mulai_soal', 'asc')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m4.5 15.75 7.5-7.5 7.5 7.5" />
                                     </svg>
                                 </button>
-                                <button @click="sortByHeader('waktuMulaiSoal', 'desc')">
+                                <button @click="sortByHeader('waktu_mulai_soal', 'desc')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -172,14 +172,14 @@
                     <th scope="col" class="px-6 py-3">
                         <div class="flex items-center">
                             <div class="flex flex-col mr-1">
-                                <button @click="sortByHeader('waktuSelesaiSoal', 'asc')">
+                                <button @click="sortByHeader('waktu_selesai_soal', 'asc')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m4.5 15.75 7.5-7.5 7.5 7.5" />
                                     </svg>
                                 </button>
-                                <button @click="sortByHeader('waktuSelesaiSoal', 'desc')">
+                                <button @click="sortByHeader('waktu_selesai_soal', 'desc')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -211,7 +211,7 @@
                             {{ index + 1 }}
                         </th>
                         <td class="px-6 py-4">
-                            {{ item.namaSoal }}
+                            {{ item.nama_soal }}
                         </td>
                         <td class="px-6 py-4">
                             {{ item.tingkat }}
@@ -225,16 +225,16 @@
                             </template>
                         </td>
                         <td class="px-6 py-4">
-                            {{ item.butirSoal }}
+                            {{ item.butir_soal }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ item.durasiSoal }}
+                            {{ item.durasi_soal }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ item.waktuMulaiSoal }}
+                            {{ item.waktu_mulai_soal }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ item.waktuSelesaiSoal }}
+                            {{ item.waktu_selesai_soal }}
                         </td>
                         <td class="px-6 py-4 space-x-2 text-right">
                             <button class="bg-sky-200 px-2.5 py-1 text-gray-900 rounded-md inline-flex items-center">
@@ -472,7 +472,7 @@ export default {
                 const searchValue = value.toLowerCase();
                 this.questionsDataTemp = this.questionsData.filter(item => {
                     return (
-                        item.namaSoal?.toLowerCase().includes(searchValue) ||
+                        item.nama_soal?.toLowerCase().includes(searchValue) ||
                         item.tingkat?.toLowerCase().includes(searchValue) ||
                         item.jurusan?.toLowerCase().includes(searchValue)
                     );

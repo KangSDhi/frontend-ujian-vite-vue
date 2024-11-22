@@ -119,7 +119,7 @@ export default {
         async dialogToDeleteQuestionOpen(value) {
             const data = await this.checkSoalById(value.id);
             this.questionDataDelete.id = data.data.id;
-            this.questionDataDelete.namaSoal = data.data.namaSoal;
+            this.questionDataDelete.namaSoal = data.data.nama_soal;
             this.isDialogToDeleteQuestion = value.status;
         },
         dialogToDeleteQuestionClose(value) {
@@ -132,9 +132,9 @@ export default {
             const data = JSON.parse(JSON.stringify(this.questionsData));
             const index = data.findIndex((item) => item.id === id);
             this.questionDataEdit = data[index];
-            console.log(this.questionDataEdit.waktuMulaiSoal);
-            this.questionDataEdit.waktuMulaiSoal = this.convertToDateTimeLocalFormat(data[index].waktuMulaiSoal);
-            this.questionDataEdit.waktuSelesaiSoal = this.convertToDateTimeLocalFormat(data[index].waktuSelesaiSoal);
+            console.log(this.questionDataEdit.waktu_mulai_soal);
+            this.questionDataEdit.waktu_mulai_soal = this.convertToDateTimeLocalFormat(data[index].waktu_mulai_soal);
+            this.questionDataEdit.waktu_selesai_soal = this.convertToDateTimeLocalFormat(data[index].waktu_selesai_soal);
         },
         formToEditQuestionOpen(value) {
             console.log(value);
