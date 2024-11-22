@@ -94,7 +94,7 @@
                     <template v-for="(dataSoalItem, dataSoalIndex) in dataSoal">
                         <RouterLink
                             :to="{ name: 'Ujian Siswa Page', params: { idSoal: this.idSoal, indexSoal: dataSoalIndex } }"
-                            :class="backgroundNavigatorQuestion(dataSoalIndex, dataSoalItem.statusPertanyaan)"
+                            :class="backgroundNavigatorQuestion(dataSoalIndex, dataSoalItem.status_pertanyaan)"
                             class="text-black rounded-lg w-full h-20 shadow-xl flex items-center justify-center">
                             {{ dataSoalIndex + 1 }}
                         </RouterLink>
@@ -206,9 +206,9 @@ export default {
                 .then(({ data }) => {
                     console.log(data);
                     this.dataSoal = data.data.soal;
-                    this.examFinishTime = data.data.waktuSelesaiUjian;
-                    this.activeTimeFinishesExam = data.data.waktuAktifSelesaiUjian;
-                    this.examStatus = data.data.statusUjian;
+                    this.examFinishTime = data.data.waktu_selesai_ujian;
+                    this.activeTimeFinishesExam = data.data.waktu_aktif_selesai_ujian;
+                    this.examStatus = data.data.status_ujian;
                     this.checkExamStatus();
                     this.initializeQuestionImage();
                     this.initializeOptions();
@@ -228,9 +228,9 @@ export default {
             if (this.dataSoal && this.dataSoal[this.indexSoal]) {
                 const soal = this.dataSoal[this.indexSoal];
                 
-                const options = ['A', 'B', 'C', 'D', 'E'].map(letter => ({
-                    label: soal[`pilihan${letter}`],
-                    value: soal[`pilihan${letter}`],
+                const options = ['a', 'b', 'c', 'd', 'e'].map(letter => ({
+                    label: soal[`pilihan_${letter}`],
+                    value: soal[`pilihan_${letter}`],
                     isImageExists: false
                 }));
 
@@ -252,7 +252,7 @@ export default {
 
                 console.table(options);
                 this.options = options;
-                this.examStatusQuestion.hesitate = soal.statusPertanyaan === "RAGU";
+                this.examStatusQuestion.hesitate = soal.status_pertanyaan === "RAGU";
             }
         },
         createAnswer(indexSoal) {
@@ -262,10 +262,10 @@ export default {
             // status pertanyaan
             console.log(this.dataSoal[indexSoal]);
             axios.post(`${this.IP_ENDPOINT}/siswa/ujian/jawab`, {
-                idSoal: this.idSoal,
-                idBank: this.dataSoal[indexSoal].idBank,
+                id_soal: this.idSoal,
+                id_bank: this.dataSoal[indexSoal].id_bank,
                 jawaban: this.dataSoal[indexSoal].jawaban,
-                statusPertanyaan: this.dataSoal[indexSoal].statusPertanyaan,
+                status_pertanyaan: this.dataSoal[indexSoal].status_pertanyaan,
             }, {
                 headers: {
                     "Authorization": "Bearer " + this.token
@@ -280,22 +280,22 @@ export default {
         },
         changeAnswer(indexSoal) {
             if (this.examStatusQuestion.hesitate) {
-                this.dataSoal[indexSoal].statusPertanyaan = "RAGU";
+                this.dataSoal[indexSoal].status_pertanyaan = "RAGU";
             } else {
-                this.dataSoal[indexSoal].statusPertanyaan = "SUDAH_DIJAWAB";
+                this.dataSoal[indexSoal].status_pertanyaan = "SUDAH_DIJAWAB";
             }
             this.createAnswer(indexSoal);
         },
         hesitateQuestion(indexSoal) {
             if (this.examStatusQuestion.hesitate) {
                 console.log("ragu-ragu");
-                this.dataSoal[indexSoal].statusPertanyaan = "RAGU";
+                this.dataSoal[indexSoal].status_pertanyaan = "RAGU";
             } else {
                 console.log("tidak ragu ragu");
                 if (this.dataSoal[indexSoal].jawaban == null) {
-                    this.dataSoal[indexSoal].statusPertanyaan = "BELUM_DIJAWAB";
+                    this.dataSoal[indexSoal].status_pertanyaan = "BELUM_DIJAWAB";
                 } else {
-                    this.dataSoal[indexSoal].statusPertanyaan = "SUDAH_DIJAWAB";
+                    this.dataSoal[indexSoal].status_pertanyaan = "SUDAH_DIJAWAB";
                 }
             }
             this.createAnswer(indexSoal);
@@ -383,11 +383,11 @@ export default {
             for (let index = 0; index < this.dataSoal.length; index++) {
                 const element = this.dataSoal[index];
 
-                if (element.statusPertanyaan == "BELUM_DIJAWAB" || element.statusPertanyaan == "RAGU") {
+                if (element.status_pertanyaan == "BELUM_DIJAWAB" || element.status_pertanyaan == "RAGU") {
                     console.log(index);
-                    console.log(element.statusPertanyaan);
+                    console.log(element.status_pertanyaan);
                     this.isError = true;
-                    this.errorMessage = "Pertanyaan no. " + parseInt(index + 1) + " " + this.convertStatusPertanyaanString(element.statusPertanyaan);
+                    this.errorMessage = "Pertanyaan no. " + parseInt(index + 1) + " " + this.convertStatusPertanyaanString(element.status_pertanyaan);
                     break;
                 }
             }
@@ -399,7 +399,7 @@ export default {
         },
         generateExamResult() {
             axios.post(`${this.IP_ENDPOINT}/siswa/nilai/generate`, {
-                idSoal: this.idSoal
+                id_soal: this.idSoal
             }, {
                 headers: {
                     "Authorization": "Bearer " + this.token
@@ -407,7 +407,7 @@ export default {
             })
                 .then(({ data }) => {
                     console.log(data);
-                    const idNilaiUjian = data.data.idNilaiUjian;
+                    const idNilaiUjian = data.data.id;
                     console.log(idNilaiUjian);
                     this.$router.push({ name: "Selesai Ujian Siswa Page", params: { idNilaiUjian: idNilaiUjian } });
                 })
@@ -417,7 +417,7 @@ export default {
         },
         initializeQuestionImage() {
             if (this.dataSoal && this.dataSoal[this.indexSoal]) {
-                const questionImage = this.dataSoal[this.indexSoal].gambarPertanyaan;
+                const questionImage = this.dataSoal[this.indexSoal].gambar_pertanyaan;
                 if (questionImage != null) {
                     axios.get(`${this.IP_ENDPOINT}/siswa/ujian/gambarpertanyaan/url?gambarPertanyaan=${questionImage}`, {
                         headers: {

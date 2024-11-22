@@ -8,22 +8,22 @@
                     </h2>
                     <div v-if="dataSoal" class="py-2 px-4">
                         <div class="flex">
-                            <div class="flex-auto font-mono">Nama Soal : {{ dataSoal.namaSoal }}</div>
+                            <div class="flex-auto font-mono">Nama Soal : {{ dataSoal.nama_soal }}</div>
                         </div>
                         <div class="flex">
                             <div class="flex-auto font-mono">Tingkat : {{ dataSoal.tingkat }}</div>
                         </div>
                         <div v-if="dataSoal.jurusan != null" class="flex">
                             <div class="flex-auto font-mono">Jurusan : {{ dataSoal.jurusan }}</div>
+                        </div>2024-11-20 10:00:00.000000
+                        <div class="flex">
+                            <div class="flex-auto font-mono">Butir Soal : {{ dataSoal.butir_soal }}</div>
                         </div>
                         <div class="flex">
-                            <div class="flex-auto font-mono">Butir Soal : {{ dataSoal.butirSoal }}</div>
+                            <div class="flex-auto font-mono">Waktu Mulai : {{ dataSoal.waktu_mulai_soal }}</div>
                         </div>
                         <div class="flex">
-                            <div class="flex-auto font-mono">Waktu Mulai : {{ dataSoal.waktuMulaiSoal }}</div>
-                        </div>
-                        <div class="flex">
-                            <div class="flex-auto font-mono">Durasi : {{ dataSoal.durasiSoal }}</div>
+                            <div class="flex-auto font-mono">Durasi : {{ dataSoal.durasi_soal }}</div>
                         </div>
                         <div class="flex">
                             <div class="font-mono">Token : </div>
@@ -90,8 +90,8 @@ export default {
                 }
             })
             .then(({ data }) => {
-                if (data.httpCode == 200 && data.message == "Token Benar!") {
-                    this.checkUjianIn();      
+                if (data.http_code == 200 && data.message == "Token Benar!") {
+                    this.checkUjianIn();
                 }
             })
             .catch(({ response }) => {
@@ -108,7 +108,7 @@ export default {
             })
             .then(({ data }) => {
                 console.log(data);
-                if(data.httpCode == 200 && data.message == "Ujian Ada!"){
+                if(data.http_code == 200 && data.message == "Ujian Ada!"){
                     this.$router.push({ name: "Ujian Siswa Page", params: { idSoal: this.idSoal, indexSoal: 0 } });
                 }
             })
@@ -127,7 +127,7 @@ export default {
                 }
             })
             .then(({ data }) => {
-                if (data.httpCode == 201 && data.message.includes("Ujian Berhasil Dibuat")) {
+                if (data.http_code == 201 && data.message.includes("Ujian Berhasil Dibuat")) {
                     this.$router.push({ name: "Ujian Siswa Page", params: { idSoal: this.idSoal, indexSoal: 0 } });           
                 }
             })

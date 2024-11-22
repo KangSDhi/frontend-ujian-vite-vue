@@ -67,7 +67,7 @@ export default {
             })
                 .then(({ data }) => {
                     // console.log(data);
-                    const nilaiUjian = data.data.nilaiUjian;
+                    const nilaiUjian = data.data.nilai_ujian;
                     console.log(nilaiUjian);
                     this.nilaiUjian = nilaiUjian;
                 })

@@ -10,25 +10,25 @@
                         <div class="max-w-sm rounded overflow-hidden shadow-lg">
                             <img class="w-full" src="/img/img_mata_ujian.jpg" alt="Sunset in the mountains">
                             <div class="px-6 py-4">
-                                <h2 class="font-bold text-xl mb-2">{{ item.namaSoal }}</h2>
+                                <h2 class="font-bold text-xl mb-2">{{ item.nama_soal }}</h2>
                                 <h3 class="font-semibold text-md">Waktu Mulai</h3>
                                 <p class="text-gray-700 text-base">
-                                    {{ item.waktuMulaiSoal }}
+                                    {{ item.waktu_mulai_soal }}
                                 </p>
                                 <h3 class="font-semibold text-md mt-1">Waktu Selesai</h3>
                                 <p class="text-gray-700 text-base">
-                                    {{ item.waktuSelesaiSoal }}
+                                    {{ item.waktu_selesai_soal }}
                                 </p>
                             </div>
                             <div class="px-6 pt-4 pb-2 mb-3">
-                                <template v-if="item.statusMataUjian == 'MULAI'">
+                                <template v-if="item.status_mata_ujian == 'MULAI'">
                                     <RouterLink
-                                        :to="{ name: 'Mulai Ujian Siswa Page', params: { idSoal: item.idSoal } }"
+                                        :to="{ name: 'Mulai Ujian Siswa Page', params: { idSoal: item.id } }"
                                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                         Mulai
                                     </RouterLink>
                                 </template>
-                                <template v-else-if="item.statusMataUjian == 'BELUM_MULAI'">
+                                <template v-else-if="item.status_mata_ujian == 'BELUM_MULAI'">
                                     <button
                                         class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Belum
                                         Mulai</button>
