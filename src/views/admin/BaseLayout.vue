@@ -109,7 +109,7 @@
         <div class="bg-white px-16 py-14 rounded-md text-center">
             <h1 class="text-xl mb-4 font-bold text-slate-500">Apakah Anda Ingin Keluar?</h1>
             <div class="grid grid-cols-2 gap-1">
-                <button class="bg-red-500 px-4 py-2 rounded-md text-md font-semibold text-white">Keluar</button>
+                <button @click="logout" class="bg-red-500 px-4 py-2 rounded-md text-md font-semibold text-white">Keluar</button>
                 <button @click="isLogoutDialogOpen = false"
                     class="bg-gray-500 px-4 py-2 rounded-md text-md font-semibold text-white ml-1">Batal</button>
             </div>
@@ -124,7 +124,7 @@ import { RouterLink } from "vue-router";
 export default {
     data() {
         return {
-            IP_ENDPOINT: import.meta.env.VITE_IP_API_ENDPOINT,
+            IP_API_ENDPOINT: import.meta.env.VITE_IP_API_ENDPOINT,
             token: localStorage.getItem("auth_token"),
             isSidebarOpen: false,
             isLogoutDialogOpen: false,
@@ -140,7 +140,7 @@ export default {
     },
     methods: {
         checkAuthAdmin() {
-            axios.get(`${this.IP_ENDPOINT}/admin/ping`, {
+            axios.get(`${this.IP_API_ENDPOINT}/admin/ping`, {
                 headers: {
                     "Authorization": "Bearer " + this.token
                 }
@@ -162,6 +162,20 @@ export default {
         toggleSidebar() {
             this.isSidebarOpen = !this.isSidebarOpen;
             console.log(this.isSidebarOpen);
+        },
+        logout(){
+            axios.get(`${this.IP_API_ENDPOINT}/auth/signout`, {
+                headers: {
+                    Authorization: `Bearer ${this.token}`
+                }
+            })
+            .then(({ data }) => {
+                localStorage.removeItem("auth_token");
+                this.$router.push({ name: "Login Page" });
+            })
+            .catch(({ response }) => {
+                console.error(response);
+            })
         }
     }
 }
