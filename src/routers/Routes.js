@@ -1,7 +1,8 @@
 import LoginPage from "../views/auth/Login.vue";
 import DashboardAdminPage from "../views/admin/Dashboard.vue"
-import LevelAndStudyProgramsManagementPage from "../views/admin/LevelAndStudyProgramsManagementPage.vue";
+import LevelAndStudyProgramsManagementAdminPage from "../views/admin/LevelAndStudyProgramsManagementPage.vue";
 import QuestionManagementAdminPage from "../views/admin/QuestionManagementPage.vue";
+import QuestionItemManagementAdminPage from "../views/admin/QuestionItemManagementPage.vue";
 import DashboardSiswaPage from "../views/siswa/Dashboard.vue";
 import MataUjianSiswaPage from "../views/siswa/MataUjian.vue";
 import MulaiUjianSiswaPage from "../views/siswa/MulaiUjian.vue";
@@ -31,7 +32,7 @@ const routes = [
             {
                 path: "level-and-study-programs-management",
                 name: "Level And Study Programs Management Page",
-                component: LevelAndStudyProgramsManagementPage,
+                component: LevelAndStudyProgramsManagementAdminPage,
                 meta: {
                     title: "Manajemen Tingkat & Jurusan"
                 }
@@ -42,6 +43,14 @@ const routes = [
                 component: QuestionManagementAdminPage,
                 meta: {
                     title: "Manajemen Soal"
+                }
+            },
+            {
+                path: "question-management/:idSoal",
+                name: "Question Management Item Admin Page",
+                component: QuestionItemManagementAdminPage,
+                meta: {
+                    title: "Manajemen Item Soal"
                 }
             }
         ]

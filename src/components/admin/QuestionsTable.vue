@@ -245,14 +245,14 @@
                                 </svg>
                                 Salin
                             </button>
-                            <button class="bg-yellow-200 px-2.5 py-1 text-gray-900 rounded-md inline-flex items-center">
+                            <RouterLink :to="{ name: 'Question Management Item Admin Page', params:{ idSoal: encryption(item.id) } }" target="_blank" class="bg-yellow-200 px-2.5 py-1 text-gray-900 rounded-md inline-flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
                                 </svg>
                                 Detail
-                            </button>
+                            </RouterLink>
                             <button @click="formToEditQuestionOpen(item.id)"
                                 class="bg-blue-200 px-2.5 py-1 text-gray-900 rounded-md inline-flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -327,6 +327,7 @@
 </template>
 
 <script>
+import { encryption } from "../../functions/utils/Crypto";
 import axios from "axios"
 
 export default {
@@ -337,6 +338,11 @@ export default {
         "isFormToEditQuestionTrue",
         "isDialogToDeleteQuestionTrue"
     ],
+    setup(){
+        return {
+            encryption,
+        }
+    },
     data() {
         return {
             IP_ENDPOINT: import.meta.env.VITE_IP_API_ENDPOINT,
