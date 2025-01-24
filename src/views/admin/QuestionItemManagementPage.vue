@@ -13,17 +13,21 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from "vue";
 import BaseLayout from "./BaseLayout.vue";
 import { decryption } from "../../functions/utils/Crypto";
 import axios from "axios";
-import ListItemQuestion from "../../components/admin/ListItemQuestion.vue";
 import FormToMakeItemQuestion from "../../components/admin/FormToMakeItemQuestion.vue";
 
 export default {
     name: "QuestionItemManagementPage",
     components: {
         BaseLayout,
-        ListItemQuestion,
+        ListItemQuestion: defineAsyncComponent({
+            loader: () => import('../../components/admin/ListItemQuestion.vue'),
+            delay: 100,
+            timeout: 3000
+        }),
         FormToMakeItemQuestion,
     },
     mounted() {

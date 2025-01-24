@@ -2,11 +2,11 @@
     <div class="container mx-auto py-5 px-2 bg-gray-200 rounded-md shadow-lg">
         <h1 class="text-xl mb-2">Tambah Soal</h1>
         <div class="flex flex-row gap-2">
-            <div class="flex flex-col">
-                <Editor :api-key="tinyMCEApiKey" :init="editorConfig" v-model="dataCreateItemQuestion.question" />
+            <div class="flex flex-col w-3/4">
+                <textarea class="w-full h-full" v-model="dataCreateItemQuestion.question"></textarea>
                 <span class="text-red-500 text-sm font-bold">{{ errorCreateItemQuestion.questionErrorMessage }}</span>
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-col w-1/4">
                 Gambar Pertanyaan
                 <img v-if="dataCreateItemQuestion.question_image_preview == null" src="/img/image.svg"
                     class="w-48 h-48 mb-2" alt="Gambar Pertanyaan Preview" srcset="">
@@ -181,7 +181,6 @@
 </template>
 
 <script>
-import Editor from '@tinymce/tinymce-vue';
 import axios from "axios";
 import { isObject } from "../../functions/utils/Check";
 
@@ -194,23 +193,9 @@ export default {
             type: String
         }
     },
-    components: {
-        Editor
-    },
     data() {
         return {
             IP_API_ENDPOINT: import.meta.env.VITE_IP_API_ENDPOINT,
-            tinyMCEApiKey: import.meta.env.VITE_TINY_MCE_API_KEY,
-            editorConfig: {
-                toolbar_mode: 'sliding',
-                width: 800,
-                height: 250,
-                plugins: [
-                    // Core editing features
-                    'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                ],
-                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-            },
             dataCreateItemQuestion: {
                 question: "",
                 question_image: null,
