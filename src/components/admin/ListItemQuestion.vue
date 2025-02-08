@@ -1,9 +1,11 @@
 <template>
-    <div v-if="isDataReady">
+    <div>
         <h1>Jumlah Soal : {{ listQuestion.length }}</h1>
-        <template v-for="(item, index) in listQuestion" :key="index">
-            <FormItemQuestion :data="item" :index="index" />
-        </template>
+        <div v-if="isDataReady">
+            <template v-for="(item, index) in listQuestion" :key="index">
+                <FormItemQuestion :data="item" :index="index" />
+            </template>
+        </div>
     </div>
 </template>
 
@@ -28,7 +30,7 @@ export default {
     watch: {
         listQuestion: {
             immediate: true,
-            handler(newList){
+            handler(newList) {
                 if (newList && newList.length > 0) {
                     this.initConvertListQuestion();
                 }
@@ -42,7 +44,7 @@ export default {
         }
     },
     methods: {
-        async initConvertListQuestion(){
+        async initConvertListQuestion() {
             if (!Array.isArray(this.listQuestion) || this.listQuestion.length === 0) return;
             await this.convertListQuestion();
             this.isDataReady = true;
@@ -54,7 +56,7 @@ export default {
                 for (let index = 0; index < updatesQuestions.length; index++) {
 
                     const question = updatesQuestions[index];
-                    
+
                     question.question_image_preview = null;
                     question.option_a_image_preview = null;
                     question.option_b_image_preview = null;

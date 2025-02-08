@@ -3,7 +3,7 @@
         <h1 class="text-xl mb-2">Tambah Soal</h1>
         <div class="flex flex-row gap-2">
             <div class="flex flex-col w-3/4">
-                <textarea class="w-full h-full" v-model="dataCreateItemQuestion.question"></textarea>
+                <QuillEditor theme="snow" v-model:content="dataCreateItemQuestion.question" contentType="html"/>
                 <span class="text-red-500 text-sm font-bold">{{ errorCreateItemQuestion.questionErrorMessage }}</span>
             </div>
             <div class="flex flex-col w-1/4">
@@ -181,6 +181,8 @@
 </template>
 
 <script>
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import axios from "axios";
 import { isObject } from "../../functions/utils/Check";
 
@@ -192,6 +194,9 @@ export default {
         token: {
             type: String
         }
+    },
+    components: {
+        QuillEditor
     },
     data() {
         return {

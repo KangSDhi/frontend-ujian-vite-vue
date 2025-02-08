@@ -3,7 +3,7 @@
         <h1 class="text-xl mb-2">Soal No {{ index + 1 }}</h1>
         <div class="flex flex-row gap-2">
             <div class="flex flex-col w-3/4">
-                <textarea class="w-full h-full" v-model="data.pertanyaan"></textarea>
+                <QuillEditor theme="snow" v-model:content="data.pertanyaan" contentType="html" />
             </div>
             <div class="flex flex-col w-1/4">
                 Gambar Pertanyaan
@@ -11,7 +11,7 @@
                     alt="Gambar Pertanyaan Preview" srcset="">
                 <img v-else :src="data.question_image_preview" class="w-48 h-48" alt="Gambar Pertanyaan Preview"
                     srcset="">
-                <input type="file">
+                <input type="file" @change="uploadQuestionImage" accept="image/*">
             </div>
         </div>
         <div class="flex w-3/4 justify-end">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="w-1/4">
                     <input v-if="data.option_a_image_preview == null" type="file">
-                    <button v-else class="h-9 px-4 bg-red-500 rounded-md">
+                    <button v-else @click="deleteOptionImage('A')" class="h-9 px-4 bg-red-500 rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -35,7 +35,8 @@
                         </svg>
                     </button>
                 </div>
-                <input type="number" v-model="data.nilai_a" class="w-20 py-1 px-1">
+                <input type="number" v-model="data.nilai_a"
+                    class="w-20 h-10 py-1 px-1 rounded-md border border-black text-center">
             </li>
             <li v-if="data.option_a_image_preview != null">
                 <img :src="data.option_a_image_preview" alt="Gambar Pilihan A" class="w-48 h-48 ml-6 mb-2" srcset="">
@@ -49,7 +50,7 @@
                 </div>
                 <div class="w-1/4">
                     <input v-if="data.option_b_image_preview == null" type="file">
-                    <button v-else class="h-9 px-4 bg-red-500 rounded-md">
+                    <button v-else @click="deleteOptionImage('B')" class="h-9 px-4 bg-red-500 rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -57,7 +58,8 @@
                         </svg>
                     </button>
                 </div>
-                <input type="number" v-model="data.nilai_b" class="w-20 py-1 px-1">
+                <input type="number" v-model="data.nilai_b"
+                    class="w-20 h-10 py-1 px-1 rounded-md border border-black text-center">
             </li>
             <li v-if="data.option_b_image_preview != null">
                 <img :src="data.option_b_image_preview" alt="Gambar Pilihan B" class="w-48 h-48 ml-6 mb-2" srcset="">
@@ -71,7 +73,7 @@
                 </div>
                 <div class="w-1/4">
                     <input v-if="data.option_c_image_preview == null" type="file">
-                    <button v-else class="h-9 px-4 bg-red-500 rounded-md">
+                    <button v-else @click="deleteOptionImage('C')" class="h-9 px-4 bg-red-500 rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -79,7 +81,8 @@
                         </svg>
                     </button>
                 </div>
-                <input type="number" v-model="data.nilai_c" class="w-20 py-1 px-1">
+                <input type="number" v-model="data.nilai_c"
+                    class="w-20 h-10 py-1 px-1 rounded-md border border-black text-center">
             </li>
             <li v-if="data.option_c_image_preview != null">
                 <img :src="data.option_c_image_preview" alt="Gambar Pilihan C" class="w-48 h-48 ml-6 mb-2" srcset="">
@@ -88,12 +91,12 @@
                 <div class="w-8 h-8 text-base text-center">D.</div>
                 <div class="flex flex-col w-1/2">
                     <input type="text" v-model="data.pilihan_d"
-                    class="py-1 px-1 rounded-md bg-slate-200 border border-black focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                    :disabled="data.option_d_image_preview != null">
+                        class="py-1 px-1 rounded-md bg-slate-200 border border-black focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                        :disabled="data.option_d_image_preview != null">
                 </div>
                 <div class="w-1/4">
                     <input v-if="data.option_d_image_preview == null" type="file">
-                    <button v-else class="h-9 px-4 bg-red-500 rounded-md">
+                    <button v-else @click="deleteOptionImage('D')" class="h-9 px-4 bg-red-500 rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -101,7 +104,8 @@
                         </svg>
                     </button>
                 </div>
-                <input type="number" v-model="data.nilai_d" class="w-20 py-1 px-1">
+                <input type="number" v-model="data.nilai_d"
+                    class="w-20 h-10 py-1 px-1 rounded-md border border-black text-center">
             </li>
             <li v-if="data.option_d_image_preview != null">
                 <img :src="data.option_d_image_preview" alt="Gambar Pilihan D" class="w-48 h-48 ml-6 mb-2" srcset="">
@@ -110,12 +114,12 @@
                 <div class="w-8 h-8 text-base text-center">E.</div>
                 <div class="flex flex-col w-1/2">
                     <input type="text" v-model="data.pilihan_e"
-                    class="py-1 px-1 rounded-md bg-slate-200 border border-black focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                    :disabled="data.option_e_image_preview != null">
+                        class="py-1 px-1 rounded-md bg-slate-200 border border-black focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                        :disabled="data.option_e_image_preview != null">
                 </div>
                 <div class="w-1/4">
                     <input v-if="data.option_e_image_preview == null" type="file">
-                    <button v-else class="h-9 px-4 bg-red-500 rounded-md">
+                    <button v-else @click="deleteOptionImage('E')" class="h-9 px-4 bg-red-500 rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -123,7 +127,8 @@
                         </svg>
                     </button>
                 </div>
-                <input type="number" v-model="data.nilai_e" class="w-20 py-1 px-1">
+                <input type="number" v-model="data.nilai_e"
+                    class="w-20 h-10 py-1 px-1 rounded-md border border-black text-center">
             </li>
             <li v-if="data.option_e_image_preview != null">
                 <img :src="data.option_e_image_preview" alt="Gambar Pilihan E" class="w-48 h-48 ml-6 mb-2" srcset="">
@@ -150,6 +155,9 @@
 </template>
 
 <script>
+import { QuillEditor } from '@vueup/vue-quill';
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
+
 export default {
     name: "FormItemQuestion",
     props: {
@@ -160,9 +168,71 @@ export default {
             type: Object
         }
     },
+    components: {
+        QuillEditor
+    },
     data() {
         return {
+            errorUpdateItemQuestion: {
+                questionErrorMessage: "",
+                optionAErrorMessage: "",
+                optionBErrorMessage: "",
+                optionCErrorMessage: "",
+                optionDErrorMessage: "",
+                optionEErrorMessage: "",
+                valueAErrorMessage: "",
+                valueBErrorMessage: "",
+                valueCErrorMessage: "",
+                valueDErrorMessage: "",
+                valueEErrorMessage: "",
+            }
+        }
+    },
+    methods: {
+        previewQuestionImage(file){
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.data.question_image_preview = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        },
+        uploadQuestionImage(event){
+            const file = event.target.files[0];
+            if (file) {
 
+                this.previewQuestionImage(file);
+
+                const formData = new FormData();
+                formData.append("file", file);
+
+                
+            }
+        },
+        deleteOptionImage(option){
+            switch (option) {
+                case 'A':
+                    this.data.pilihan_a = null;
+                    this.data.option_a_image_preview = null;
+                    break;
+                case 'B':
+                    this.data.pilihan_b = null;
+                    this.data.option_b_image_preview = null;
+                    break;
+                case 'C':
+                    this.data.pilihan_c = null;
+                    this.data.option_c_image_preview = null;
+                    break;
+                case 'D':
+                    this.data.pilihan_d = null;
+                    this.data.option_d_image_preview = null;
+                    break;
+                case 'E':
+                    this.data.pilihan_e = null;
+                    this.data.option_e_image_preview = null;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
