@@ -239,6 +239,11 @@ export default {
     methods: {
         createItemQuestion() {
             this.resetErrorForm();
+
+            if (this.dataCreateItemQuestion.question === "<p><br></p>") {
+                this.dataCreateItemQuestion.question = "";
+            }
+
             axios.post(`${this.IP_API_ENDPOINT}/admin/bank-soal/create`, {
                 id_soal: this.idSoal,
                 pertanyaan: this.dataCreateItemQuestion.question,

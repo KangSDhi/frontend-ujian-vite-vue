@@ -3,7 +3,7 @@
         <h1>Jumlah Soal : {{ listQuestion.length }}</h1>
         <div v-if="isDataReady">
             <template v-for="(item, index) in listQuestion" :key="index">
-                <FormItemQuestion :data="item" :index="index" />
+                <FormItemQuestion :data="item" :index="index" :token="token"/>
             </template>
         </div>
     </div>
