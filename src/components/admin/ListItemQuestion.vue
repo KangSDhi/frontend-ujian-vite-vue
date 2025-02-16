@@ -3,7 +3,11 @@
         <h1>Jumlah Soal : {{ listQuestion.length }}</h1>
         <div v-if="isDataReady">
             <template v-for="(item, index) in listQuestion" :key="index">
-                <FormItemQuestion :data="item" :index="index" :token="token"/>
+                <FormItemQuestion 
+                    :data="item" 
+                    :index="index" 
+                    :token="token"
+                    @isDialogToDeleteItemQuestionTrue="dialogToDeleteItemQuestionOpen($event)"/>
             </template>
         </div>
     </div>
@@ -24,6 +28,9 @@ export default {
             type: Array
         }
     },
+    emits: [
+        'isBridgeDialogToDeleteItemQuestion'
+    ],
     components: {
         FormItemQuestion
     },
@@ -154,6 +161,9 @@ export default {
                 console.error(error);
                 return null;
             }
+        },
+        dialogToDeleteItemQuestionOpen(event){
+            this.$emit('isBridgeDialogToDeleteItemQuestion', event);
         }
     }
 }

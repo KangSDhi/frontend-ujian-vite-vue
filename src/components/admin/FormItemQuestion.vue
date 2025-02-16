@@ -163,7 +163,7 @@
                 </svg>
                 Update
             </button>
-            <button class="flex py-1.5 px-1 bg-red-500 rounded-md">
+            <button @click="dialogToDeleteItemQuestionOpen" class="flex py-1.5 px-1 bg-red-500 rounded-md">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -194,6 +194,9 @@ export default {
             type: Object
         }
     },
+    emits: [
+        "isDialogToDeleteItemQuestionTrue"
+    ],
     components: {
         QuillEditor
     },
@@ -409,6 +412,14 @@ export default {
                 this.errorUpdateItemQuestion[key] = "";
             })
         },
+        dialogToDeleteItemQuestionOpen(){
+            const data = {
+                index: this.index,
+                id: this.data.id,
+                status: true
+            }
+            this.$emit('isDialogToDeleteItemQuestionTrue', data);
+        }
     }
 }
 </script>
