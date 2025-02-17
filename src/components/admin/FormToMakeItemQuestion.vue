@@ -163,12 +163,12 @@
         <div class="flex flex-row gap-2 px-5">
             <button @click="createItemQuestion" class="flex py-1.5 px-1 bg-blue-400 rounded-md text-base">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
+                    stroke="currentColor" class="size-6 text-white">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
                 Simpan
             </button>
-            <button @click="deleteForm" class="flex py-1.5 px-1 bg-red-500 rounded-md">
+            <button @click="deleteForm" class="flex py-1.5 px-1 rounded-md text-red-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round"

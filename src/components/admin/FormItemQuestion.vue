@@ -26,7 +26,8 @@
                         class="py-1 px-1 rounded-md bg-slate-200 border border-black focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                         :class="{ 'border-2 border-red-500': errorUpdateItemQuestion.optionAErrorMessage }"
                         :disabled="data.option_a_image_preview != null">
-                    <span class="text-red-500 text-sm font-bold">{{ errorUpdateItemQuestion.optionAErrorMessage }}</span>
+                    <span class="text-red-500 text-sm font-bold">{{ errorUpdateItemQuestion.optionAErrorMessage
+                        }}</span>
                 </div>
                 <div class="w-1/4">
                     <input v-if="data.option_a_image_preview == null" type="file"
@@ -53,7 +54,8 @@
                         class="py-1 px-1 rounded-md bg-slate-200 border border-black focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                         :class="{ 'border-2 border-red-500': errorUpdateItemQuestion.optionBErrorMessage }"
                         :disabled="data.option_b_image_preview != null">
-                    <span class="text-red-500 text-sm font-bold">{{ errorUpdateItemQuestion.optionBErrorMessage }}</span>
+                    <span class="text-red-500 text-sm font-bold">{{ errorUpdateItemQuestion.optionBErrorMessage
+                        }}</span>
                 </div>
                 <div class="w-1/4">
                     <input v-if="data.option_b_image_preview == null" type="file"
@@ -80,7 +82,8 @@
                         class="py-1 px-1 rounded-md bg-slate-200 border border-black focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                         :class="{ 'border-2 border-red-500': errorUpdateItemQuestion.optionCErrorMessage }"
                         :disabled="data.option_c_image_preview != null">
-                    <span class="text-red-500 text-sm font-bold">{{ errorUpdateItemQuestion.optionCErrorMessage }}</span>
+                    <span class="text-red-500 text-sm font-bold">{{ errorUpdateItemQuestion.optionCErrorMessage
+                        }}</span>
                 </div>
                 <div class="w-1/4">
                     <input v-if="data.option_c_image_preview == null" type="file"
@@ -107,7 +110,8 @@
                         class="py-1 px-1 rounded-md bg-slate-200 border border-black focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                         :class="{ 'border-2 border-red-500': errorUpdateItemQuestion.optionDErrorMessage }"
                         :disabled="data.option_d_image_preview != null">
-                    <span class="text-red-500 text-sm font-bold">{{ errorUpdateItemQuestion.optionDErrorMessage }}</span>
+                    <span class="text-red-500 text-sm font-bold">{{ errorUpdateItemQuestion.optionDErrorMessage
+                        }}</span>
                 </div>
                 <div class="w-1/4">
                     <input v-if="data.option_d_image_preview == null" type="file"
@@ -134,7 +138,8 @@
                         class="py-1 px-1 rounded-md bg-slate-200 border border-black focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                         :class="{ 'border-2 border-red-500': errorUpdateItemQuestion.optionEErrorMessage }"
                         :disabled="data.option_e_image_preview != null">
-                    <span class="text-red-500 text-sm font-bold">{{ errorUpdateItemQuestion.optionEErrorMessage }}</span>
+                    <span class="text-red-500 text-sm font-bold">{{ errorUpdateItemQuestion.optionEErrorMessage
+                        }}</span>
                 </div>
                 <div class="w-1/4">
                     <input v-if="data.option_e_image_preview == null" type="file"
@@ -158,12 +163,13 @@
         <div class="flex flex-row gap-2 px-5">
             <button @click="updateItemQuestion" class="flex py-1.5 px-1 bg-blue-400 rounded-md text-base">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    stroke="currentColor" class="size-6 text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                 </svg>
                 Update
             </button>
-            <button @click="dialogToDeleteItemQuestionOpen" class="flex py-1.5 px-1 bg-red-500 rounded-md">
+            <button @click="dialogToDeleteItemQuestionOpen" class="flex py-1.5 px-1 rounded-md text-red-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -383,7 +389,7 @@ export default {
                     const errorMessages = response.data.errors;
 
                     if (isObject(errorMessages)) {
-                        
+
                         const errorMapping = {
                             "pertanyaan": "questionErrorMessage",
                             "pilihan_a": "optionAErrorMessage",
@@ -412,7 +418,7 @@ export default {
                 this.errorUpdateItemQuestion[key] = "";
             })
         },
-        dialogToDeleteItemQuestionOpen(){
+        dialogToDeleteItemQuestionOpen() {
             const data = {
                 index: this.index,
                 id: this.data.id,
